@@ -29,6 +29,7 @@ public class LoginPanel{
 	private Connection con;
 	private String username;
 	private String password;
+	private JLabel label;
 
 
 	/**
@@ -100,6 +101,10 @@ public class LoginPanel{
 		gbc_btnNewButton.gridx = 7;
 		gbc_btnNewButton.gridy = 9;
 		panel.add(btnNewButton, gbc_btnNewButton);
+		
+		JLabel label = new JLabel("");
+		label.
+		panel.add();
 
 		createAccountButton.addActionListener(new AddCreatePerformer());
 		btnNewButton.addActionListener(new AddLoginPerformer());
@@ -127,26 +132,30 @@ public class LoginPanel{
 			try {
 				//rs = stmt.executeQuery(begin);
 				ResultSet rs = stmt.executeQuery(sql);
-				rs.next();
-				String user = rs.getString("Username");
-				String pass = rs.getString("Password");
-				String type = rs.getString("UserType");
-				System.out.println("" + user + "" + pass + "" + type + "");
-				if (user.equals(username) && pass.equals(password) && type.equals("Patient")) {	  // make if user exists, it goes straight to home
-					panel.removeAll();
-					new PatientProfilePanel(panel,con,user);
-					panel.validate();
-					panel.repaint();
-				} else if (user.equals(username) && pass.equals(password) && type.equals("Doctor")) {
-					panel.removeAll();
-					new DoctorProfilePanel(panel,con,user);
-					panel.validate();
-					panel.repaint();
+				while(rs.next()) {
+					String user = rs.getString("Username");
+					String pass = rs.getString("Password");
+					String type = rs.getString("UserType");
+					System.out.println("" + user + "" + pass + "" + type + "");
+					if (user.equals(username) && pass.equals(password) && type.equals("Patient")) {	  // make if user exists, it goes straight to home
+						panel.removeAll();
+						new PatientProfilePanel(panel,con,user);
+						panel.validate();
+						panel.repaint();
+						break;
+					} else if (user.equals(username) && pass.equals(password) && type.equals("Doctor")) {
+						panel.removeAll();
+						new DoctorProfilePanel(panel,con,user);
+						panel.validate();
+						panel.repaint();
+						break;
+					}
 				}
 			} catch (SQLException m) {
 
 				m.printStackTrace();
 			} 
+
 
 
 
