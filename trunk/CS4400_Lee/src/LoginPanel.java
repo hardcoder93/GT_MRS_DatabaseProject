@@ -101,7 +101,7 @@ public class LoginPanel{
 		gbc_btnNewButton.gridx = 7;
 		gbc_btnNewButton.gridy = 9;
 		panel.add(btnNewButton, gbc_btnNewButton);
-		
+
 		JLabel label = new JLabel("");
 
 		createAccountButton.addActionListener(new AddCreatePerformer());
@@ -117,36 +117,65 @@ public class LoginPanel{
 			password = textField_1.getText();
 
 			Statement stmt = null;
-
+			Statement stmt2 = null;
 			System.out.println("Creating statement...");
 			try {
 				stmt = con.createStatement();
+				stmt2 = con.createStatement();
 			} catch (SQLException k) {
 				// TODO Auto-generated catch block
 				k.printStackTrace();
 			}
 
 			String sql = "SELECT Username, Password, UserType FROM User";
+			String sql2 = "SELECT P_Username FROM Patient";
 			try {
 				//rs = stmt.executeQuery(begin);
 				ResultSet rs = stmt.executeQuery(sql);
+				ResultSet rs2;
 				while(rs.next()) {
+					rs2 = stmt2.executeQuery(sql2);
 					String user = rs.getString("Username");
 					String pass = rs.getString("Password");
 					String type = rs.getString("UserType");
 					System.out.println("" + user + "" + pass + "" + type + "");
 					if (user.equals(username) && pass.equals(password) && type.equals("Patient")) {	  // make if user exists, it goes straight to home
-						panel.removeAll();
-						new PatientProfilePanel(panel,con,user);
-						panel.validate();
-						panel.repaint();
-						break;
+						
+						boolean goToMenu = false;
+						while (rs2.next()){
+							if (rs2.getString("P_Username").equals(username)) {
+								goToMenu = true;
+								break;}
+						}
+						if (goToMenu){
+							panel.removeAll();
+							new PatientMenuPanel(panel,con);
+							panel.validate();
+							panel.repaint();}
+						else {
+							panel.removeAll();
+							new PatientProfilePanel(panel,con,user);
+							panel.validate();
+							panel.repaint();
+						}
 					} else if (user.equals(username) && pass.equals(password) && type.equals("Doctor")) {
-						panel.removeAll();
-						new DoctorProfilePanel(panel,con,user);
-						panel.validate();
-						panel.repaint();
-						break;
+						boolean goToMenu = false;
+						while (rs2.next()){
+							if (rs2.getString("P_Username").equals(username)) {
+								goToMenu = true;
+								break;}
+						}
+						if (goToMenu){
+							panel.removeAll();
+							new DoctorMenuPanel(panel,con);
+							panel.validate();
+							panel.repaint();}
+						else {
+							panel.removeAll();
+							new DoctorProfilePanel(panel,con,user);
+							panel.validate();
+							panel.repaint();
+						}
 					}
 				}
 			} catch (SQLException m) {
