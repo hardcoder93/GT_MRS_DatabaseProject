@@ -103,8 +103,6 @@ public class LoginPanel{
 		panel.add(btnNewButton, gbc_btnNewButton);
 		
 		JLabel label = new JLabel("");
-		label.
-		panel.add();
 
 		createAccountButton.addActionListener(new AddCreatePerformer());
 		btnNewButton.addActionListener(new AddLoginPerformer());
