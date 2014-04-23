@@ -140,7 +140,7 @@ public class LoginPanel{
 					String type = rs.getString("UserType");
 					System.out.println("" + user + "" + pass + "" + type + "");
 					if (user.equals(username) && pass.equals(password) && type.equals("Patient")) {	  // make if user exists, it goes straight to home
-						
+
 						boolean goToMenu = false;
 						while (rs2.next()){
 							if (rs2.getString("P_Username").equals(username)) {
