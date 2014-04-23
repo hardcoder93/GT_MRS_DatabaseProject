@@ -68,7 +68,7 @@ public class DoctorMenuPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			new CreateAccountPanel(panel,con);
+			new RecordVisitPanel(panel,con);
 			panel.validate();
 			panel.repaint();
 		}
