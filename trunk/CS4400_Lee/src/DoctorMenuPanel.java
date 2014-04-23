@@ -10,6 +10,9 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class DoctorMenuPanel extends JPanel {
@@ -17,49 +20,87 @@ public class DoctorMenuPanel extends JPanel {
 	private Connection con;
 	private JPanel panel;
 	private String d_username;
-	
+	private String d_licenseNumber;
+
 	/**
 	 * Create the panel.
 	 */
 	public DoctorMenuPanel(JPanel panel, Connection con, String d_username) {
 		this.con = con; this.panel = panel; this.d_username = d_username;
 		panel.setLayout(new GridLayout(0, 1, 0, 0));
-		
+
 		JLabel lblHomepageForDoctors = new JLabel("Homepage for Doctors");
 		lblHomepageForDoctors.setBackground(Color.WHITE);
 		lblHomepageForDoctors.setForeground(Color.GRAY);
 		lblHomepageForDoctors.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(lblHomepageForDoctors);
-		
-		
+
+
 		JButton btnViewAppointmentsCalendar = new JButton("View Appointments Calendar");
 		panel.add(btnViewAppointmentsCalendar);
 		btnViewAppointmentsCalendar.addActionListener(new AddViewAppointmentsCalendar());
-		
+
 		JButton btnPatientVisits = new JButton("Patient Visits");
 		panel.add(btnPatientVisits);
 		btnPatientVisits.addActionListener(new AddPatientVisits());
-		
+
 		JButton btnRecordASurgery = new JButton("Record A Surgery");
 		panel.add(btnRecordASurgery);
 		btnRecordASurgery.addActionListener(new AddRecordASurgery());
-		
+
 		JButton btnCommunicate = new JButton("Communicate");
 		panel.add(btnCommunicate);
 		btnCommunicate.addActionListener(new AddCommunicate());
-		
+
 		JButton btnEditProfile = new JButton("Edit Profile");
 		panel.add(btnEditProfile);
 		btnEditProfile.addActionListener(new AddEditProfile());
+		
+		JButton btnMessages = new JButton("Messages");
+		panel.add(btnMessages);
+		btnEditProfile.addActionListener(new AddMessages());
+		
+		Statement stmt = null;
+
+		try {
+			stmt = con.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+
+		String sql = null;
+
+		sql = "SELECT LicenseNumber FROM Doctor WHERE D_username ='"+ d_username +"'";
+
+		try {
+			ResultSet rs = stmt.executeQuery(sql);
+			rs.next();
+			d_licenseNumber = rs.getString("LicenseNumber");
+
+
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		try {
+			stmt.close();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 
 	}
-	
-	
+
+
 	private class AddViewAppointmentsCalendar implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			new CreateAccountPanel(panel,con);
+			new AppointmentsCalendarPanel(panel,con,d_licenseNumber);
 			panel.validate();
 			panel.repaint();
 		}
@@ -67,17 +108,21 @@ public class DoctorMenuPanel extends JPanel {
 	private class AddPatientVisits implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
+
+			
+			
 			panel.removeAll();
-			new RecordVisitPanel(panel,con);
+			new PatientVisitHistoryPanel(panel,con,d_licenseNumber);
 			panel.validate();
 			panel.repaint();
+
 		}
 	}	
 	private class AddRecordASurgery implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			new CreateAccountPanel(panel,con);
+			new CreateAccountPanel(panel,con);    // wongoo
 			panel.validate();
 			panel.repaint();
 		}
@@ -87,7 +132,7 @@ public class DoctorMenuPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			new CreateAccountPanel(panel,con);
+			new CreateAccountPanel(panel,con);     // wongoo
 			panel.validate();
 			panel.repaint();
 		}
@@ -101,5 +146,14 @@ public class DoctorMenuPanel extends JPanel {
 			panel.repaint();
 		}
 	}
+	
+	private class AddMessages implements ActionListener{
 
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			// new Messages(panel,con);
+			panel.validate();
+			panel.repaint();
+		}
+	}
 }
