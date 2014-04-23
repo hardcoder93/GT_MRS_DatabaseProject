@@ -35,9 +35,10 @@ public class PatientMenuPanel extends JPanel {
 	 */
 	private Connection con;
 	private JPanel panel;
+	private String p_username;
 
-	public PatientMenuPanel(JPanel panel, Connection con) {
-		this.con = con; this.panel = panel;
+	public PatientMenuPanel(JPanel panel, Connection con, String p_username) {
+		this.con = con; this.panel = panel; this.p_username = p_username;
 		panel.setLayout(new GridLayout(0, 1, 0, 0));
 
 		JButton btnMakeAppointments = new JButton("Make Appointments");
@@ -92,7 +93,7 @@ public class PatientMenuPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			new OrderMedicationPanel(panel,con);
+			new OrderMedicationPanel(panel,con,p_username);
 			panel.validate();
 			panel.repaint();
 		}

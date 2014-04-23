@@ -30,7 +30,7 @@ public class CreateAccountPanel {
 	private String username;
 	private String password;
 	private String type;
-	
+
 	/**
 	 * Create the panel.
 	 */
@@ -44,7 +44,7 @@ public class CreateAccountPanel {
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gridBagLayout);
-		
+
 		JLabel lblNewLabel = new JLabel("New User Account");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 23));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
@@ -53,7 +53,7 @@ public class CreateAccountPanel {
 		gbc_lblNewLabel.gridx = 1;
 		gbc_lblNewLabel.gridy = 0;
 		panel.add(lblNewLabel, gbc_lblNewLabel);
-		
+
 		JLabel lblUsername = new JLabel("Username");
 		lblUsername.setForeground(Color.BLACK);
 		lblUsername.setFont(new Font("Arial", Font.BOLD, 14));
@@ -62,7 +62,7 @@ public class CreateAccountPanel {
 		gbc_lblUsername.gridx = 0;
 		gbc_lblUsername.gridy = 3;
 		panel.add(lblUsername, gbc_lblUsername);
-		
+
 		textField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.anchor = GridBagConstraints.WEST;
@@ -71,7 +71,7 @@ public class CreateAccountPanel {
 		gbc_textField.gridy = 3;
 		panel.add(textField, gbc_textField);
 		textField.setColumns(10);
-		
+
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Arial", Font.BOLD, 14));
 		GridBagConstraints gbc_lblPassword = new GridBagConstraints();
@@ -79,7 +79,7 @@ public class CreateAccountPanel {
 		gbc_lblPassword.gridx = 0;
 		gbc_lblPassword.gridy = 4;
 		panel.add(lblPassword, gbc_lblPassword);
-		
+
 		textField_1 = new JTextField();
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.anchor = GridBagConstraints.WEST;
@@ -97,7 +97,7 @@ public class CreateAccountPanel {
 		gbc_lblNewLabel_1.gridx = 0;
 		gbc_lblNewLabel_1.gridy = 5;
 		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
-		
+
 		textField_2 = new JTextField();
 		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
 		gbc_textField_2.anchor = GridBagConstraints.WEST;
@@ -106,7 +106,7 @@ public class CreateAccountPanel {
 		gbc_textField_2.gridy = 5;
 		panel.add(textField_2, gbc_textField_2);
 		textField_2.setColumns(10);
-		*/
+		 */
 		JLabel lblNewLabel_2 = new JLabel("Type of User");
 		lblNewLabel_2.setFont(new Font("Arial", Font.BOLD, 14));
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
@@ -114,7 +114,7 @@ public class CreateAccountPanel {
 		gbc_lblNewLabel_2.gridx = 0;
 		gbc_lblNewLabel_2.gridy = 6;
 		panel.add(lblNewLabel_2, gbc_lblNewLabel_2);
-		
+
 		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Doctor", "Patient", "Administrative Personnel"}));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
@@ -123,7 +123,7 @@ public class CreateAccountPanel {
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 6;
 		panel.add(comboBox, gbc_comboBox);
-		
+
 		JButton btnNewButton = new JButton("Register");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.anchor = GridBagConstraints.EAST;
@@ -132,7 +132,7 @@ public class CreateAccountPanel {
 		panel.add(btnNewButton, gbc_btnNewButton);
 
 		btnNewButton.addActionListener(new AddPatientProfilePerformer());
-		
+
 	}
 	private class AddPatientProfilePerformer implements ActionListener{
 
@@ -143,6 +143,7 @@ public class CreateAccountPanel {
 			type = (String)comboBox.getSelectedItem();
 			Statement stmt = null;
 
+
 			System.out.println("Creating statement...");
 			try {
 				stmt = con.createStatement();
@@ -150,36 +151,65 @@ public class CreateAccountPanel {
 				// TODO Auto-generated catch block
 				k.printStackTrace();
 			}
-			
+
 			String sql = null;
 
-			
-			sql = "INSERT INTO User(Username, Password, UserType) VALUES ('"+username+ "','" + password+ "', '"+type+ "')";
-			//System.out.println(sql);
-			try {
-				//rs = stmt.executeQuery(begin);
-				stmt.execute(sql);
-			} catch (SQLException m) {
+			if (type.equals("Patient")) {
 
-				m.printStackTrace();
+				sql = "INSERT INTO User(Username, Password, UserType) VALUES ('"+username+ "','" + password+ "', '"+type+ "')";
+
+				//System.out.println(sql);
+				try {
+					stmt.execute(sql);
+
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+
+				//rs.close();
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
-			//rs.close();
-			try {
-				stmt.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			else if (type.equals("Doctor")) {
+
+				String sql2 = "INSERT INTO MedicalStaff(M_Username) VALUES ('"+username+"')";
+				sql = "INSERT INTO User(Username, Password, UserType) VALUES ('"+username+ "','" + password+ "', '"+type+ "')";
+
+				//System.out.println(sql);
+				try {
+					con.setAutoCommit(false);
+					stmt.addBatch(sql);
+					stmt.addBatch(sql2);
+					stmt.executeBatch();
+					con.commit();
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+
+				//rs.close();
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+
+				}
+				panel.removeAll();
+				new LoginPanel(panel,con);
+				panel.validate();
+				panel.repaint();
+
+
+
+
 			}
-			
-			panel.removeAll();
-			new LoginPanel(panel,con);
-			panel.validate();
-			panel.repaint();
-			
-			
-			
-			
 		}
-	}
 
+	}
 }

@@ -28,6 +28,8 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.SwingConstants;
 
@@ -37,12 +39,15 @@ public class OrderMedicationPanel extends JPanel {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JPanel panel; private Connection con;
+	private JComboBox comboBox,comboBox_2,comboBox_3;
+	private String p_username;
 	/**
 	 * Create the panel.
 	 */
-	public OrderMedicationPanel(JPanel panel, Connection con) {
+	public OrderMedicationPanel(JPanel panel, Connection con, String p_username) {
 		this.panel = panel;
 		this.con = con;
+		this.p_username = p_username;
 		panel.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JLabel lblOrderMedicationFrom = new JLabel("Order Medication from Pharmacy");
@@ -127,13 +132,59 @@ public class OrderMedicationPanel extends JPanel {
 		JButton btnCheckout = new JButton("Checkout");
 		btnCheckout.setForeground(new Color(0, 0, 139));
 		panel.add(btnCheckout);
-		btnCheckout.addActionListener(new AddPaymentInformation());
+		btnCheckout.addActionListener(new AddCheckout());
 
 	}
 	
-	private class AddPaymentInformation implements ActionListener{
-
+	private class AddCheckout implements ActionListener{
+		
 		public void actionPerformed(ActionEvent e) {
+			String medName = textField.getText();
+			String dosage = (String)comboBox.getSelectedItem();
+			String durationM = (String)comboBox_2.getSelectedItem();
+			String durationD = (String)comboBox_3.getSelectedItem();
+			String doctor = textField_1.getText();
+			String date = textField_2.getText();
+			
+			Statement stmt = null;
+
+			System.out.println("Creating statement...");
+			try {
+				stmt = con.createStatement();
+			} catch (SQLException k) {
+				// TODO Auto-generated catch block
+				k.printStackTrace();
+			}
+
+			String sql = null;
+			String sql2 = null;
+
+
+			sql = "SELECT (D_LicenseNumber,P_Username,DateOfVisit,MedicineName,Dosage,Duration) FROM Prescription";
+			//sql2 = 
+
+			try {
+				con.setAutoCommit(false);
+				stmt.addBatch(sql);
+				stmt.addBatch(sql2);
+				stmt.executeBatch();
+				con.commit();
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+
+
+			//rs.close();
+			try {
+				stmt.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			
+			
 			panel.removeAll();
 			new PaymentInformationPanel(panel,con);
 			panel.validate();

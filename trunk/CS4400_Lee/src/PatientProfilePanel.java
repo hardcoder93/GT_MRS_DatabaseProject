@@ -32,14 +32,14 @@ public class PatientProfilePanel{
 	private JTextField textField_9;
 	private JTextField textField_10;
 	private JPanel panel;
-	
+
 	private Connection con;
 	private String contactN;
 	private String contactP;
 	private String p_username;
 	JComboBox comboBox_1;
 	JComboBox comboBox;
-	
+
 	/**
 	 * Create the panel.
 	 */
@@ -54,7 +54,7 @@ public class PatientProfilePanel{
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gridBagLayout);
-		
+
 		JLabel lblPatientProfile = new JLabel("Patient Profile");
 		lblPatientProfile.setFont(new Font("Consolas", Font.BOLD, 25));
 		GridBagConstraints gbc_lblPatientProfile = new GridBagConstraints();
@@ -62,7 +62,7 @@ public class PatientProfilePanel{
 		gbc_lblPatientProfile.gridx = 4;
 		gbc_lblPatientProfile.gridy = 1;
 		panel.add(lblPatientProfile, gbc_lblPatientProfile);
-		
+
 		JLabel lblPatientname = new JLabel("PatientName");
 		lblPatientname.setFont(new Font("Aharoni", Font.BOLD, 16));
 		GridBagConstraints gbc_lblPatientname = new GridBagConstraints();
@@ -70,7 +70,7 @@ public class PatientProfilePanel{
 		gbc_lblPatientname.gridx = 2;
 		gbc_lblPatientname.gridy = 3;
 		panel.add(lblPatientname, gbc_lblPatientname);
-		
+
 		textField = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
@@ -79,7 +79,7 @@ public class PatientProfilePanel{
 		gbc_textField.gridy = 3;
 		panel.add(textField, gbc_textField);
 		textField.setColumns(10);
-		
+
 		JLabel lblNewLabel = new JLabel("DateOfBirth");
 		lblNewLabel.setFont(new Font("Aharoni", Font.BOLD, 16));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
@@ -87,7 +87,7 @@ public class PatientProfilePanel{
 		gbc_lblNewLabel.gridx = 2;
 		gbc_lblNewLabel.gridy = 4;
 		panel.add(lblNewLabel, gbc_lblNewLabel);
-		
+
 		textField_1 = new JTextField();
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
@@ -96,7 +96,7 @@ public class PatientProfilePanel{
 		gbc_textField_1.gridy = 4;
 		panel.add(textField_1, gbc_textField_1);
 		textField_1.setColumns(10);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Gender");
 		lblNewLabel_1.setFont(new Font("Aharoni", Font.BOLD, 16));
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
@@ -104,7 +104,7 @@ public class PatientProfilePanel{
 		gbc_lblNewLabel_1.gridx = 2;
 		gbc_lblNewLabel_1.gridy = 5;
 		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
-		
+
 		comboBox_1 = new JComboBox();
 		comboBox_1.setFont(new Font("AR JULIAN", Font.PLAIN, 12));
 		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Male", "Female"}));
@@ -114,7 +114,7 @@ public class PatientProfilePanel{
 		gbc_comboBox_1.gridx = 4;
 		gbc_comboBox_1.gridy = 5;
 		panel.add(comboBox_1, gbc_comboBox_1);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Address");
 		lblNewLabel_2.setFont(new Font("Aharoni", Font.BOLD, 16));
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
@@ -122,7 +122,7 @@ public class PatientProfilePanel{
 		gbc_lblNewLabel_2.gridx = 2;
 		gbc_lblNewLabel_2.gridy = 6;
 		panel.add(lblNewLabel_2, gbc_lblNewLabel_2);
-		
+
 		textField_3 = new JTextField();
 		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
 		gbc_textField_3.insets = new Insets(0, 0, 5, 5);
@@ -131,7 +131,7 @@ public class PatientProfilePanel{
 		gbc_textField_3.gridy = 6;
 		panel.add(textField_3, gbc_textField_3);
 		textField_3.setColumns(10);
-		
+
 		JLabel lblNewLabel_3 = new JLabel("HomePhone");
 		lblNewLabel_3.setFont(new Font("Aharoni", Font.BOLD, 16));
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
@@ -139,7 +139,7 @@ public class PatientProfilePanel{
 		gbc_lblNewLabel_3.gridx = 2;
 		gbc_lblNewLabel_3.gridy = 7;
 		panel.add(lblNewLabel_3, gbc_lblNewLabel_3);
-		
+
 		textField_4 = new JTextField();
 		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
 		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
@@ -148,7 +148,7 @@ public class PatientProfilePanel{
 		gbc_textField_4.gridy = 7;
 		panel.add(textField_4, gbc_textField_4);
 		textField_4.setColumns(10);
-		
+
 		JLabel lblNewLabel_4 = new JLabel("WorkPhone");
 		lblNewLabel_4.setFont(new Font("Aharoni", Font.BOLD, 16));
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
@@ -156,7 +156,7 @@ public class PatientProfilePanel{
 		gbc_lblNewLabel_4.gridx = 2;
 		gbc_lblNewLabel_4.gridy = 8;
 		panel.add(lblNewLabel_4, gbc_lblNewLabel_4);
-		
+
 		textField_5 = new JTextField();
 		GridBagConstraints gbc_textField_5 = new GridBagConstraints();
 		gbc_textField_5.insets = new Insets(0, 0, 5, 5);
@@ -165,7 +165,7 @@ public class PatientProfilePanel{
 		gbc_textField_5.gridy = 8;
 		panel.add(textField_5, gbc_textField_5);
 		textField_5.setColumns(10);
-		
+
 		JLabel lblNewLabel_5 = new JLabel("Weight");
 		lblNewLabel_5.setFont(new Font("Aharoni", Font.BOLD, 16));
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
@@ -173,7 +173,7 @@ public class PatientProfilePanel{
 		gbc_lblNewLabel_5.gridx = 2;
 		gbc_lblNewLabel_5.gridy = 9;
 		panel.add(lblNewLabel_5, gbc_lblNewLabel_5);
-		
+
 		textField_6 = new JTextField();
 		GridBagConstraints gbc_textField_6 = new GridBagConstraints();
 		gbc_textField_6.insets = new Insets(0, 0, 5, 5);
@@ -182,7 +182,7 @@ public class PatientProfilePanel{
 		gbc_textField_6.gridy = 9;
 		panel.add(textField_6, gbc_textField_6);
 		textField_6.setColumns(10);
-		
+
 		JLabel lblNewLabel_6 = new JLabel("Height");
 		lblNewLabel_6.setFont(new Font("Aharoni", Font.BOLD, 16));
 		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
@@ -190,7 +190,7 @@ public class PatientProfilePanel{
 		gbc_lblNewLabel_6.gridx = 2;
 		gbc_lblNewLabel_6.gridy = 10;
 		panel.add(lblNewLabel_6, gbc_lblNewLabel_6);
-		
+
 		textField_7 = new JTextField();
 		GridBagConstraints gbc_textField_7 = new GridBagConstraints();
 		gbc_textField_7.insets = new Insets(0, 0, 5, 5);
@@ -199,7 +199,7 @@ public class PatientProfilePanel{
 		gbc_textField_7.gridy = 10;
 		panel.add(textField_7, gbc_textField_7);
 		textField_7.setColumns(10);
-		
+
 		JLabel lblNewLabel_7 = new JLabel("Annual Income $");
 		lblNewLabel_7.setFont(new Font("Aharoni", Font.BOLD, 16));
 		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
@@ -207,7 +207,7 @@ public class PatientProfilePanel{
 		gbc_lblNewLabel_7.gridx = 2;
 		gbc_lblNewLabel_7.gridy = 11;
 		panel.add(lblNewLabel_7, gbc_lblNewLabel_7);
-		
+
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("Aharoni", Font.PLAIN, 12));
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"below 25000$", "above 25000$"}));
@@ -217,7 +217,7 @@ public class PatientProfilePanel{
 		gbc_comboBox.gridx = 4;
 		gbc_comboBox.gridy = 11;
 		panel.add(comboBox, gbc_comboBox);
-		
+
 		JLabel lblNewLabel_8 = new JLabel("List of Allergies");
 		lblNewLabel_8.setFont(new Font("Aharoni", Font.BOLD, 16));
 		GridBagConstraints gbc_lblNewLabel_8 = new GridBagConstraints();
@@ -225,7 +225,7 @@ public class PatientProfilePanel{
 		gbc_lblNewLabel_8.gridx = 2;
 		gbc_lblNewLabel_8.gridy = 12;
 		panel.add(lblNewLabel_8, gbc_lblNewLabel_8);
-		
+
 		textField_8 = new JTextField();
 		GridBagConstraints gbc_textField_8 = new GridBagConstraints();
 		gbc_textField_8.insets = new Insets(0, 0, 5, 5);
@@ -234,7 +234,7 @@ public class PatientProfilePanel{
 		gbc_textField_8.gridy = 12;
 		panel.add(textField_8, gbc_textField_8);
 		textField_8.setColumns(10);
-		
+
 		JLabel lblNewLabel_9 = new JLabel("Emergency Name");
 		lblNewLabel_9.setFont(new Font("Aharoni", Font.BOLD, 16));
 		GridBagConstraints gbc_lblNewLabel_9 = new GridBagConstraints();
@@ -242,7 +242,7 @@ public class PatientProfilePanel{
 		gbc_lblNewLabel_9.gridx = 2;
 		gbc_lblNewLabel_9.gridy = 13;
 		panel.add(lblNewLabel_9, gbc_lblNewLabel_9);
-		
+
 		textField_9 = new JTextField();
 		GridBagConstraints gbc_textField_9 = new GridBagConstraints();
 		gbc_textField_9.insets = new Insets(0, 0, 5, 5);
@@ -251,7 +251,7 @@ public class PatientProfilePanel{
 		gbc_textField_9.gridy = 13;
 		panel.add(textField_9, gbc_textField_9);
 		textField_8.setColumns(10);
-		
+
 		JLabel lblNewLabel_10 = new JLabel("EmergencyPhone");
 		lblNewLabel_10.setFont(new Font("Aharoni", Font.BOLD, 16));
 		GridBagConstraints gbc_lblNewLabel_10 = new GridBagConstraints();
@@ -259,7 +259,7 @@ public class PatientProfilePanel{
 		gbc_lblNewLabel_10.gridx = 2;
 		gbc_lblNewLabel_10.gridy = 14;
 		panel.add(lblNewLabel_10, gbc_lblNewLabel_10);
-		
+
 		textField_10 = new JTextField();
 		GridBagConstraints gbc_textField_10 = new GridBagConstraints();
 		gbc_textField_10.insets = new Insets(0, 0, 5, 5);
@@ -268,7 +268,7 @@ public class PatientProfilePanel{
 		gbc_textField_10.gridy = 14;
 		panel.add(textField_10, gbc_textField_10);
 		textField_8.setColumns(10);
-		
+
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.setFont(new Font("Bell MT", Font.PLAIN, 12));
 		GridBagConstraints gbc_btnSubmit = new GridBagConstraints();
@@ -293,7 +293,7 @@ public class PatientProfilePanel{
 			String Allergies = textField_8.getText();
 			contactN = textField_9.getText();
 			contactP = textField_10.getText();
-			
+
 			Statement stmt = null;
 
 			System.out.println("Creating statement...");
@@ -303,34 +303,27 @@ public class PatientProfilePanel{
 				// TODO Auto-generated catch block
 				k.printStackTrace();
 			}
-			
+
 			String sql = null;
 			String sql2 = null;
 
-			
-			sql = "INSERT INTO Patient(P_Username, Name, HomePhone, AnnualIncome, DateofBirth, Gender, Address, WorkPhone, ContactName, ContactPhone, Weight, Height) VALUES ('" + 
-				       p_username+ "','"+ Pn+ "','" + HomePhone+ "','"+Ai+"','"+Dob+"','"+ Gender+"','"+Address+"','"+WorkPhone+"','"+ contactN +"','" +contactP+"','"+Weight+"','"+Height+"')";
-				sql2 = "INSERT INTO Allergies_new(P_Username, Allergies) VALUES ('"+ p_username+"','"+Allergies+"')" ; 
 
-				try {
+			sql = "INSERT INTO Patient(P_Username, Name, HomePhone, AnnualIncome, DateofBirth, Gender, Address, WorkPhone, ContactName, ContactPhone, Weight, Height) VALUES ('" + 
+					p_username+ "','"+ Pn+ "','" + HomePhone+ "','"+Ai+"','"+Dob+"','"+ Gender+"','"+Address+"','"+WorkPhone+"','"+ contactN +"','" +contactP+"','"+Weight+"','"+Height+"')";
+			sql2 = "INSERT INTO Allergies_new(P_Username, Allergies) VALUES ('"+ p_username+"','"+Allergies+"')" ; 
+
+			try {
 				con.setAutoCommit(false);
-				  stmt.addBatch(sql);
-			      stmt.addBatch(sql2);
-			      stmt.executeBatch();
-			      con.commit();
+				stmt.addBatch(sql);
+				stmt.addBatch(sql2);
+				stmt.executeBatch();
+				con.commit();
 			} catch (SQLException e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
-		    
-			
-			try {
-				stmt.executeBatch();
-			} catch (SQLException m) {
 
-				m.printStackTrace();
-			}
-			
+
 			//rs.close();
 			try {
 				stmt.close();
@@ -338,15 +331,15 @@ public class PatientProfilePanel{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
+
 			panel.removeAll();
-			new PatientMenuPanel(panel,con);
+			new PatientMenuPanel(panel,con,p_username);
 			panel.validate();
 			panel.repaint();
-			
-			
-			
-			
+
+
+
+
 		}
 	}
 
