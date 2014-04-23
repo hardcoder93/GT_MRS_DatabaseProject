@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -34,8 +35,6 @@ public class PatientProfilePanel{
 	private JPanel panel;
 
 	private Connection con;
-	private String contactN;
-	private String contactP;
 	private String p_username;
 	JComboBox comboBox_1;
 	JComboBox comboBox;
@@ -295,6 +294,9 @@ public class PatientProfilePanel{
 		gbc_btnSubmit.gridy = 1;
 		panel.add(btnSubmit, gbc_btnSubmit);
 		btnSubmit.addActionListener(new AddPatientProfileSubmitPerformer());
+		
+		
+		
 	}
 	private class AddPatientProfileSubmitPerformer implements ActionListener{
 
@@ -309,14 +311,16 @@ public class PatientProfilePanel{
 			String Weight = textField_7.getText();
 			String Ai = (String)comboBox.getSelectedItem();
 			String Allergies = textField_8.getText();
-			contactN = textField_9.getText();
-			contactP = textField_10.getText();
+			String contactN = textField_9.getText();
+			String contactP = textField_10.getText();
 			String cardNum = textField_11.getText();
 			Statement stmt = null;
+			Statement stmt2 = null;
 
 			System.out.println("Creating statement...");
 			try {
 				stmt = con.createStatement();
+				stmt2 = con.createStatement();
 			} catch (SQLException k) {
 				// TODO Auto-generated catch block
 				k.printStackTrace();
@@ -324,23 +328,40 @@ public class PatientProfilePanel{
 
 			String sql = null;
 			String sql2 = null;
+			String sql3 = null;
+			String sql4 = null;
 
 
 			sql = "INSERT INTO Patient(P_Username, Name, HomePhone, AnnualIncome, DateofBirth, Gender, Address, WorkPhone, ContactName, ContactPhone, Weight, Height, CardNumber) VALUES ('" + 
 					p_username+ "','"+ Pn+ "','" + HomePhone+ "','"+Ai+"','"+Dob+"','"+ Gender+"','"+Address+"','"+WorkPhone+"','"+ contactN +"','" +contactP+"','"+Weight+"','"+Height+"','"+cardNum+"')";
 			sql2 = "INSERT INTO Allergies_new(P_Username, Allergies) VALUES ('"+ p_username+"','"+Allergies+"')" ; 
+			sql3 = "UPDATE Patient SET Name= '"+ Pn +"', HomePhone = '"+HomePhone+"', AnnualIncome = '"+Ai+"', DateofBirth = '"+Dob+"', Gender = '"+Gender+
+					"', Address = '"+Address+"', WorkPhone = '" +WorkPhone+"', ContactName = '"+ contactN+ "', ContactPhone = '" + contactP +"', Weight = '" + Weight +
+					"', Height = '" + Height +"', CardNumber = '" + cardNum +"' WHERE P_Username='"+p_username+"'";
+			sql4 = "UPDATE Allergies_new SET Allergies= '"+Allergies+"' WHERE P_Username='"+ p_username + "'";
+			String sqlCheck = "SELECT P_Username FROM Patient WHERE P_Username = '"+ p_username +"'";
 
 			try {
-				con.setAutoCommit(false);
-				stmt.addBatch(sql);
-				stmt.addBatch(sql2);
-				stmt.executeBatch();
-				con.commit();
+
+				ResultSet rsCheck = stmt2.executeQuery(sqlCheck);
+
+				if (!rsCheck.next()){
+
+					con.setAutoCommit(false);
+					stmt.addBatch(sql);
+					stmt.addBatch(sql2);
+					stmt.executeBatch();
+					con.commit();}
+				else {
+					con.setAutoCommit(false);
+					stmt.addBatch(sql3);
+					stmt.addBatch(sql4);
+					stmt.executeBatch();
+					con.commit();
+				}
 			} catch (SQLException e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
-
 
 			//rs.close();
 			try {

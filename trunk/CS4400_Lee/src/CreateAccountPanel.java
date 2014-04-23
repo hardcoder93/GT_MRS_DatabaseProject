@@ -161,7 +161,7 @@ public class CreateAccountPanel {
 				//System.out.println(sql);
 				try {
 					stmt.execute(sql);
-					
+
 				} catch (SQLException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
@@ -187,7 +187,7 @@ public class CreateAccountPanel {
 					stmt.addBatch(sql2);
 					stmt.executeBatch();
 					con.commit();
-					
+
 				} catch (SQLException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
@@ -200,6 +200,27 @@ public class CreateAccountPanel {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 
+				}
+			}
+
+			else {
+				sql = "INSERT INTO User(Username, Password, UserType) VALUES ('"+username+ "','" + password+ "', '"+type+ "')";
+
+				//System.out.println(sql);
+				try {
+					stmt.execute(sql);
+
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+
+				//rs.close();
+				try {
+					stmt.close();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 			panel.removeAll();

@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -30,7 +31,7 @@ public class DoctorProfilePanel {
 	private JTextField textField_2;
 	private JTextField txtTo;
 	private JTextField txtFrom;
-	private String D_username;
+	private String d_username;
 	JComboBox comboBox;
 	JComboBox comboBox_1;
 	JPanel panel;
@@ -40,10 +41,10 @@ public class DoctorProfilePanel {
 	/**
 	 * Create the panel.
 	 */
-	public DoctorProfilePanel(JPanel panel, Connection con, String username) {
+	public DoctorProfilePanel(JPanel panel, Connection con, String d_username) {
 		this.panel = panel;
 		this.con = con;
-		D_username = username;
+		this.d_username = d_username;
 		panel.setBackground(new Color(255, 160, 122));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -260,7 +261,6 @@ public class DoctorProfilePanel {
 	private class AddDoctorProfileSubmitPerformer implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-			String D_Username = D_username;
 			String LicenseNumber = textField.getText();
 			String FirstName = textField_1.getText();
 			String LastName = textField_2.getText();
@@ -273,10 +273,13 @@ public class DoctorProfilePanel {
 			String From = txtFrom.getText();
 			String To = txtTo.getText();
 			Statement stmt = null;
+			Statement stmt2 = null;
+
 
 			System.out.println("Creating statement...");
 			try {
 				stmt = con.createStatement();
+				stmt2 = con.createStatement();
 			} catch (SQLException k) {
 				// TODO Auto-generated catch block
 				k.printStackTrace();
@@ -284,18 +287,37 @@ public class DoctorProfilePanel {
 
 			String sql = null;
 			String sql2 = null;
+			String sql3 = null;
+			String sql4 = null;
 
 
 			sql = "INSERT INTO Doctor(D_Username, LicenseNumber, FirstName, LastName, DoB, WorkPhone, Specialty, RoomNumber, HomeAdd) VALUES ('" + 
-					D_Username+ "','"+ LicenseNumber+ "','" + FirstName+ "','"+LastName+"','"+DoB+"','"+ WorkPhone+"','"+Specialty+"','"+ RoomNumber +"','" +HomeAdd+"')";
+					d_username+ "','"+ LicenseNumber+ "','" + FirstName+ "','"+LastName+"','"+DoB+"','"+ WorkPhone+"','"+Specialty+"','"+ RoomNumber +"','" +HomeAdd+"')";
 			sql2 = "INSERT INTO Availability_new(D_LicenseNumber, Day, FromTime, ToTime) VALUES ('"+ LicenseNumber+"','"+Day+"','"+ From +"','" +To+"')" ; 
+			sql3 = "UPDATE Doctor SET LicenseNumber= '"+LicenseNumber+"', FirstName = '"+FirstName+"', Lastname = '"+LastName+"', DoB = '"+DoB+"', FirstName = '"+FirstName+
+					"', WorkPhone = '"+WorkPhone+"', Specialty = '" +Specialty+"', RoomNumber = '"+ RoomNumber+ "', HomeAdd = '" + HomeAdd +"' WHERE D_Username='"+d_username+
+					"'";
+			sql4 = "UPDATE Availability_new SET Day= '"+Day+"', FromTime = '"+From+"', ToTime = '"+To+"' WHERE D_LicenseNumber='"+ LicenseNumber + "'";
+			String sqlCheck = "SELECT D_Username FROM Doctor WHERE D_Username = '"+ d_username +"'";
 
 			try {
-				con.setAutoCommit(false);
-				stmt.addBatch(sql);
-				stmt.addBatch(sql2);
-				stmt.executeBatch();
-				con.commit();
+
+				ResultSet rsCheck = stmt2.executeQuery(sqlCheck);
+
+				if (!rsCheck.next()){
+
+					con.setAutoCommit(false);
+					stmt.addBatch(sql);
+					stmt.addBatch(sql2);
+					stmt.executeBatch();
+					con.commit();}
+				else {
+					con.setAutoCommit(false);
+					stmt.addBatch(sql3);
+					stmt.addBatch(sql4);
+					stmt.executeBatch();
+					con.commit();
+				}
 			} catch (SQLException e2) {
 				e2.printStackTrace();
 			}
@@ -310,7 +332,7 @@ public class DoctorProfilePanel {
 			}
 
 			panel.removeAll();
-			new DoctorMenuPanel(panel,con);
+			new DoctorMenuPanel(panel,con,d_username);
 			panel.validate();
 			panel.repaint();
 

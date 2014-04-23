@@ -116,7 +116,7 @@ public class PatientMenuPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			new CreateAccountPanel(panel,con);
+			new PatientProfilePanel(panel,con,p_username);
 			panel.validate();
 			panel.repaint();
 		}
