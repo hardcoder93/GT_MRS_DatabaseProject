@@ -149,7 +149,7 @@ public class LoginPanel{
 						}
 						if (goToMenu){
 							panel.removeAll();
-							new PatientMenuPanel(panel,con);
+							new PatientMenuPanel(panel,con,username);
 							panel.validate();
 							panel.repaint();}
 						else {
