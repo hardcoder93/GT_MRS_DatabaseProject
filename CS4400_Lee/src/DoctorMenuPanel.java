@@ -16,12 +16,13 @@ public class DoctorMenuPanel extends JPanel {
 
 	private Connection con;
 	private JPanel panel;
+	private String d_username;
 	
 	/**
 	 * Create the panel.
 	 */
-	public DoctorMenuPanel(JPanel panel, Connection con) {
-		this.con = con; this.panel = panel;
+	public DoctorMenuPanel(JPanel panel, Connection con, String d_username) {
+		this.con = con; this.panel = panel; this.d_username = d_username;
 		panel.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JLabel lblHomepageForDoctors = new JLabel("Homepage for Doctors");
@@ -95,7 +96,7 @@ public class DoctorMenuPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			new CreateAccountPanel(panel,con);
+			new DoctorProfilePanel(panel,con,d_username);
 			panel.validate();
 			panel.repaint();
 		}

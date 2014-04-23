@@ -129,18 +129,19 @@ public class LoginPanel{
 
 			String sql = "SELECT Username, Password, UserType FROM User";
 			String sql2 = "SELECT P_Username FROM Patient";
+			String sql3 = "SELECT D_Username FROM Doctor";
 			try {
 				//rs = stmt.executeQuery(begin);
 				ResultSet rs = stmt.executeQuery(sql);
 				ResultSet rs2;
 				while(rs.next()) {
-					rs2 = stmt2.executeQuery(sql2);
+					
 					String user = rs.getString("Username");
 					String pass = rs.getString("Password");
 					String type = rs.getString("UserType");
 					System.out.println("" + user + "" + pass + "" + type + "");
 					if (user.equals(username) && pass.equals(password) && type.equals("Patient")) {	  // make if user exists, it goes straight to home
-
+						rs2 = stmt2.executeQuery(sql2);
 						boolean goToMenu = false;
 						while (rs2.next()){
 							if (rs2.getString("P_Username").equals(username)) {
@@ -154,28 +155,35 @@ public class LoginPanel{
 							panel.repaint();}
 						else {
 							panel.removeAll();
-							new PatientProfilePanel(panel,con,user);
+							new PatientProfilePanel(panel,con,username);
 							panel.validate();
 							panel.repaint();
 						}
 					} else if (user.equals(username) && pass.equals(password) && type.equals("Doctor")) {
+						rs2 = stmt2.executeQuery(sql3);
 						boolean goToMenu = false;
 						while (rs2.next()){
-							if (rs2.getString("P_Username").equals(username)) {
+							if (rs2.getString("D_Username").equals(username)) {
 								goToMenu = true;
 								break;}
 						}
 						if (goToMenu){
 							panel.removeAll();
-							new DoctorMenuPanel(panel,con);
+							new DoctorMenuPanel(panel,con,username);
 							panel.validate();
 							panel.repaint();}
 						else {
 							panel.removeAll();
-							new DoctorProfilePanel(panel,con,user);
+							new DoctorProfilePanel(panel,con,username);
 							panel.validate();
 							panel.repaint();
 						}
+					}
+					else if (user.equals(username) && pass.equals(password) && type.equals("Administrative Personnel")){
+						panel.removeAll();
+						new AdminMenuPanel(panel,con);
+						panel.validate();
+						panel.repaint();
 					}
 				}
 			} catch (SQLException m) {
