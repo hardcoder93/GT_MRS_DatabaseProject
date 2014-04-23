@@ -106,6 +106,8 @@ public class LoginPanel{
 
 		createAccountButton.addActionListener(new AddCreatePerformer());
 		btnNewButton.addActionListener(new AddLoginPerformer());
+		
+		panel.revalidate();
 	}
 
 
