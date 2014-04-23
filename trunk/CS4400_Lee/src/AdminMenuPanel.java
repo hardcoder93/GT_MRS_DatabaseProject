@@ -59,7 +59,7 @@ public class AdminMenuPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			new BillingPanel(panel,con);
+			new DoctorPerformancePanel(panel,con);
 			panel.validate();
 			panel.repaint();
 		}

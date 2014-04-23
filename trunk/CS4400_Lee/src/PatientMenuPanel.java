@@ -80,7 +80,7 @@ public class PatientMenuPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			new CreateAccountPanel(panel,con);
+			new ViewVisitHistoryPanel(panel,con,p_username);
 			panel.validate();
 			panel.repaint();
 		}
@@ -94,7 +94,7 @@ public class PatientMenuPanel extends JPanel {
 			panel.repaint();
 		}
 	}
-	private class AddCommunicate implements ActionListener{
+	private class AddCommunicate implements ActionListener{   //won goo
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
@@ -121,7 +121,7 @@ public class PatientMenuPanel extends JPanel {
 			panel.repaint();
 		}
 	}	
-	private class AddMessages implements ActionListener{
+	private class AddMessages implements ActionListener{ // weongoo
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
