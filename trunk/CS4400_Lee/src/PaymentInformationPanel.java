@@ -30,6 +30,7 @@ public class PaymentInformationPanel extends JPanel {
 	private JTextField textField_1;
 	private JTextField textField_3;
 	private JTextField textField_4;
+	private JComboBox comboBox;
 	private JPanel panel; private Connection con; private String p_username; private ArrayList<String> basket;
 
 	/**
@@ -96,7 +97,7 @@ public class PaymentInformationPanel extends JPanel {
 		JLabel lblTypeOfCard = new JLabel("Type of Card");
 		splitPane_2.setLeftComponent(lblTypeOfCard);
 
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"VISA", "MASTER", "AMEX"}));
 		splitPane_2.setRightComponent(comboBox);
 
@@ -143,31 +144,58 @@ public class PaymentInformationPanel extends JPanel {
 	private class AddCheckout implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-
-			// store card info
-
-
-
-			// mark ordered
+			String name = textField.getText();
+			String number = textField_1.getText();
+			String type = (String)comboBox.getSelectedItem();
+			String cvv = textField_3.getText();
+			String date = textField_4.getText();
+			
+			String sql = null;
+			String sql1 = null;
+			String sql2 = null;
+			String sql3 = null;
+			
 			Statement stmt = null;
+			Statement stmt2 = null;
 			System.out.println("Creating statement...");
 			try {
 				stmt = con.createStatement();
+				stmt2 = con.createStatement();
 			} catch (SQLException k) {
 				// TODO Auto-generated catch block
 				k.printStackTrace();
 			}
 
-			String sql = null;
-			String sql2 = null;
 
-
-			sql = "SELECT (D_LicenseNumber,P_Username,DateOfVisit,MedicineName,Dosage,Duration) FROM Prescription";
-			//sql2 = 
+			sql = "INSERT INTO PaymentInformation(CardNumber,CVV,DateOfExpiry,Type,CardHolderName) VALUES('"+number+"','"+cvv+"','"+
+					date+"','"+type+"','"+name+"')";
+			sql1 = "UPDATE PaymentInformation SET CardNumber = '"+ number +"', CVV = '"+ cvv +"', DateOfExpiry = '"+date+ "'," + 
+					"Type = '"+ type +"', CardHolderName = '"+ name+"'";
+			String medName = null;
+			sql2 = "UPDATE Prescription SET OrderedBy= '"+p_username+"' WHERE P_Username='"+p_username+"', MedicineName = '"+medName +"'";
+			sql3 = "SELECT CardNumber FROM PaymentInformation WHERE CardNumber = '"+number+"'";
+			
+			// store card info
 			try {
-				ResultSet rs = stmt.executeQuery(sql);
-				while(rs.next()) {
+				ResultSet rs = stmt.executeQuery(sql3);
+				if(rs.next()) {
+					stmt.execute(sql1);
+				}
+				else stmt.execute(sql);
 
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();}
+
+
+			// mark ordered
+			
+			
+			try {
+				
+				for (int i=0;i< basket.size();i++){
+					medName = basket.get(i);
+					stmt.execute(sql2);
 				}
 
 			} catch (SQLException e2) {
