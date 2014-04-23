@@ -169,8 +169,8 @@ public class PaymentInformationPanel extends JPanel {
 
 			sql = "INSERT INTO PaymentInformation(CardNumber,CVV,DateOfExpiry,Type,CardHolderName) VALUES('"+number+"','"+cvv+"','"+
 					date+"','"+type+"','"+name+"')";
-			sql1 = "UPDATE PaymentInformation SET CardNumber = '"+ number +"', CVV = '"+ cvv +"', DateOfExpiry = '"+date+ "'," + 
-					"Type = '"+ type +"', CardHolderName = '"+ name+"'";
+			sql1 = "UPDATE PaymentInformation SET CVV = '"+ cvv +"', DateOfExpiry = '"+date+ "'," + 
+					"Type = '"+ type +"', CardHolderName = '"+ name+"' WHERE CardNumber ='" + number+"'";
 			String medName = null;
 			sql2 = "UPDATE Prescription SET OrderedBy= '"+p_username+"' WHERE P_Username='"+p_username+"', MedicineName = '"+medName +"'";
 			sql3 = "SELECT CardNumber FROM PaymentInformation WHERE CardNumber = '"+number+"'";
