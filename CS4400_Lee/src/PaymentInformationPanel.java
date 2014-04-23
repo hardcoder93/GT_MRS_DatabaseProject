@@ -12,11 +12,17 @@ import java.awt.GridLayout;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.sql.Statement;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 public class PaymentInformationPanel extends JPanel {
@@ -24,14 +30,14 @@ public class PaymentInformationPanel extends JPanel {
 	private JTextField textField_1;
 	private JTextField textField_3;
 	private JTextField textField_4;
-	private JPanel panel; private Connection con;
+	private JPanel panel; private Connection con; private String p_username; private ArrayList<String> basket;
 
 	/**
 	 * Create the panel.
 	 */
-	public PaymentInformationPanel(JPanel panel, Connection con) {
+	public PaymentInformationPanel(JPanel panel, Connection con, String p_username, ArrayList<String> basket) {
 		this.panel = panel;
-		this.con = con;
+		this.con = con; this.p_username = p_username; this.basket = basket;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{450, 0};
 		gridBagLayout.rowHeights = new int[]{42, 42, 42, 42, 42, 42, 42, 0};
@@ -130,7 +136,59 @@ public class PaymentInformationPanel extends JPanel {
 		gbc_button.gridx = 0;
 		gbc_button.gridy = 6;
 		panel.add(button, gbc_button);
+		button.addActionListener(new AddCheckout());
 
 	}
 
+	private class AddCheckout implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+
+			// store card info
+
+
+
+			// mark ordered
+			Statement stmt = null;
+			System.out.println("Creating statement...");
+			try {
+				stmt = con.createStatement();
+			} catch (SQLException k) {
+				// TODO Auto-generated catch block
+				k.printStackTrace();
+			}
+
+			String sql = null;
+			String sql2 = null;
+
+
+			sql = "SELECT (D_LicenseNumber,P_Username,DateOfVisit,MedicineName,Dosage,Duration) FROM Prescription";
+			//sql2 = 
+			try {
+				ResultSet rs = stmt.executeQuery(sql);
+				while(rs.next()) {
+
+				}
+
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();}
+
+
+			//rs.close();
+			try {
+				stmt.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+
+			panel.removeAll();
+			new PatientMenuPanel(panel,con,p_username);
+			panel.validate();
+			panel.repaint();
+		}
+	}
 }
+
