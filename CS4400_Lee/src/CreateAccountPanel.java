@@ -161,7 +161,7 @@ public class CreateAccountPanel {
 				//System.out.println(sql);
 				try {
 					stmt.execute(sql);
-
+					
 				} catch (SQLException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
@@ -187,6 +187,7 @@ public class CreateAccountPanel {
 					stmt.addBatch(sql2);
 					stmt.executeBatch();
 					con.commit();
+					
 				} catch (SQLException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
@@ -200,15 +201,11 @@ public class CreateAccountPanel {
 					e1.printStackTrace();
 
 				}
-				panel.removeAll();
-				new LoginPanel(panel,con);
-				panel.validate();
-				panel.repaint();
-
-
-
-
 			}
+			panel.removeAll();
+			new LoginPanel(panel,con);
+			panel.validate();
+			panel.repaint();
 		}
 
 	}

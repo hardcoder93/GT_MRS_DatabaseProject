@@ -39,6 +39,7 @@ public class PatientProfilePanel{
 	private String p_username;
 	JComboBox comboBox_1;
 	JComboBox comboBox;
+	private JTextField textField_11;
 
 	/**
 	 * Create the panel.
@@ -250,7 +251,7 @@ public class PatientProfilePanel{
 		gbc_textField_9.gridx = 4;
 		gbc_textField_9.gridy = 13;
 		panel.add(textField_9, gbc_textField_9);
-		textField_8.setColumns(10);
+		textField_9.setColumns(10);
 
 		JLabel lblNewLabel_10 = new JLabel("EmergencyPhone");
 		lblNewLabel_10.setFont(new Font("Aharoni", Font.BOLD, 16));
@@ -267,7 +268,24 @@ public class PatientProfilePanel{
 		gbc_textField_10.gridx = 4;
 		gbc_textField_10.gridy = 14;
 		panel.add(textField_10, gbc_textField_10);
-		textField_8.setColumns(10);
+		textField_10.setColumns(10);
+		
+		JLabel lblNewLabel_11 = new JLabel("cardNumber");
+		lblNewLabel_11.setFont(new Font("Aharoni", Font.BOLD, 16));
+		GridBagConstraints gbc_lblNewLabel_11 = new GridBagConstraints();
+		gbc_lblNewLabel_11.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_11.gridx = 2;
+		gbc_lblNewLabel_11.gridy = 15;
+		panel.add(lblNewLabel_11, gbc_lblNewLabel_11);
+
+		textField_11 = new JTextField();
+		GridBagConstraints gbc_textField_11 = new GridBagConstraints();
+		gbc_textField_11.insets = new Insets(0, 0, 5, 5);
+		gbc_textField_11.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_11.gridx = 4;
+		gbc_textField_11.gridy = 15;
+		panel.add(textField_11, gbc_textField_11);
+		textField_11.setColumns(10);
 
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.setFont(new Font("Bell MT", Font.PLAIN, 12));
@@ -293,7 +311,7 @@ public class PatientProfilePanel{
 			String Allergies = textField_8.getText();
 			contactN = textField_9.getText();
 			contactP = textField_10.getText();
-
+			String cardNum = textField_11.getText();
 			Statement stmt = null;
 
 			System.out.println("Creating statement...");
@@ -308,8 +326,8 @@ public class PatientProfilePanel{
 			String sql2 = null;
 
 
-			sql = "INSERT INTO Patient(P_Username, Name, HomePhone, AnnualIncome, DateofBirth, Gender, Address, WorkPhone, ContactName, ContactPhone, Weight, Height) VALUES ('" + 
-					p_username+ "','"+ Pn+ "','" + HomePhone+ "','"+Ai+"','"+Dob+"','"+ Gender+"','"+Address+"','"+WorkPhone+"','"+ contactN +"','" +contactP+"','"+Weight+"','"+Height+"')";
+			sql = "INSERT INTO Patient(P_Username, Name, HomePhone, AnnualIncome, DateofBirth, Gender, Address, WorkPhone, ContactName, ContactPhone, Weight, Height, CardNumber) VALUES ('" + 
+					p_username+ "','"+ Pn+ "','" + HomePhone+ "','"+Ai+"','"+Dob+"','"+ Gender+"','"+Address+"','"+WorkPhone+"','"+ contactN +"','" +contactP+"','"+Weight+"','"+Height+"','"+cardNum+"')";
 			sql2 = "INSERT INTO Allergies_new(P_Username, Allergies) VALUES ('"+ p_username+"','"+Allergies+"')" ; 
 
 			try {
