@@ -85,7 +85,7 @@ public class ScheduleAppointmentPanel{
 	private void getAvailabilities(){
 		PreparedStatement stmt;
 		try {
-			stmt = con.prepareStatement("SELECT LicenseNumber, FirstName, LastName, WorkPhone, RoomNumber,  Day , FromTime, ToTime, AVG(Rating) as rate FROM Availability_new AS a, Doctor INNER JOIN Rates ON LicenseNumber = Rates.D_LicenseNumber WHERE Specialty =  \"" + specialtyCombo.getSelectedItem() + "\" AND LicenseNumber = a.D_LicenseNumber GROUP BY LicenseNumber, DAY , FromTime, ToTime");
+			stmt = con.prepareStatement("SELECT LicenseNumber, FirstName, LastName, WorkPhone, RoomNumber,  Day , FromTime, ToTime, AVG(Rating) as rate FROM Availability_new AS a, Doctor LEFT JOIN Rates ON LicenseNumber = Rates.D_LicenseNumber WHERE Specialty =  '" + specialtyCombo.getSelectedItem() + "' AND LicenseNumber = a.D_LicenseNumber GROUP BY LicenseNumber, DAY , FromTime, ToTime");
 			doctors = stmt.executeQuery();
 			ArrayList<String> data = new ArrayList<String>();
 			while(doctors.next()) {
@@ -153,7 +153,7 @@ public class ScheduleAppointmentPanel{
 						while(doctors.getRow() != selI+1){
 							doctors.next();
 						}
-						PreparedStatement stmt = con.prepareStatement("SELECT Date,ScheduledTime FROM RequestsAppointment WHERE Date = \"" + doctors.getString("Day") + "\" and ScheduledTime = \"" + doctors.getString("FromTime") +"\"");
+						PreparedStatement stmt = con.prepareStatement("SELECT Date,ScheduledTime FROM RequestsAppointment WHERE Date = '" + doctors.getString("Day") + "' and ScheduledTime = '" + doctors.getString("FromTime") +"' AND d_licensenumber = '" + doctors.getString("LicenseNumber")  +"'");
 						ResultSet rs = stmt.executeQuery();
 						if(rs.next() == true){
 							JOptionPane.showMessageDialog(panel, "That time slot is already taken!");
@@ -181,6 +181,7 @@ public class ScheduleAppointmentPanel{
 			panel.add(pane);
 			
 			panel.revalidate();
+			panel.repaint();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
