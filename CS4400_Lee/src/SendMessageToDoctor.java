@@ -1,6 +1,9 @@
 import javax.swing.JPanel;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Insets;
@@ -16,6 +19,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -32,10 +36,28 @@ public class SendMessageToDoctor{
 	/**
 	 * Create the panel.
 	 */
-	public SendMessageToDoctor(JPanel panel, Connection con, String p_username) {
+	public SendMessageToDoctor(final JPanel panel, final Connection con, final String p_username) {
 		this.panel = panel;
 		this.con = con;
 		this.p_username = p_username;
+		
+		
+		JButton backButton = new JButton("Return To Home Page");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.gridx = 0;
+		gbc_b.gridy = 9;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new ActionListener() {
+
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new PatientMenuPanel(panel,con,p_username);
+			panel.validate();
+			panel.repaint();
+		}
+	});
+		
 		
 		Statement stmt = null;
 
