@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 
 
-public class RecordVisitPanel extends JPanel {
+public class RecordVisitPanel {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -36,20 +36,22 @@ public class RecordVisitPanel extends JPanel {
 	private JTextArea textArea;
 	private Connection con;
 	private String licenseNumber,p_name;
+	private JPanel panel;
+	private ArrayList<String> prescriptions;
 
 	/**
 	 * Create the panel.
 	 */
 	public RecordVisitPanel(final JPanel panel, final Connection con,String p_name, final String d_username,final String licenseNumber) {
 		this.con = con; this.licenseNumber = licenseNumber; this.p_name = p_name;
-
-		setBackground(Color.LIGHT_GRAY);
+		prescriptions = new ArrayList<String>();
+		panel.setBackground(Color.LIGHT_GRAY);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 85, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
+		panel.setLayout(gridBagLayout);
 
 		JLabel lblRecordAVisit = new JLabel("Record A Visit");
 		lblRecordAVisit.setForeground(Color.BLUE);
@@ -57,7 +59,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_lblRecordAVisit.insets = new Insets(0, 0, 5, 5);
 		gbc_lblRecordAVisit.gridx = 1;
 		gbc_lblRecordAVisit.gridy = 0;
-		add(lblRecordAVisit, gbc_lblRecordAVisit);
+		panel.add(lblRecordAVisit, gbc_lblRecordAVisit);
 
 
 		Statement stmt = null;
@@ -91,7 +93,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_lblDateOfVisit.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDateOfVisit.gridx = 0;
 		gbc_lblDateOfVisit.gridy = 1;
-		add(lblDateOfVisit, gbc_lblDateOfVisit);
+		panel.add(lblDateOfVisit, gbc_lblDateOfVisit);
 
 		textField = new JTextField(String.format("%s",dateOfVisit));
 		GridBagConstraints gbc_textField = new GridBagConstraints();
@@ -99,7 +101,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 1;
-		add(textField, gbc_textField);
+		panel.add(textField, gbc_textField);
 		textField.setColumns(10);
 
 		JLabel lblPatientName = new JLabel("Patient Name");
@@ -108,7 +110,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_lblPatientName.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPatientName.gridx = 0;
 		gbc_lblPatientName.gridy = 2;
-		add(lblPatientName, gbc_lblPatientName);
+		panel.add(lblPatientName, gbc_lblPatientName);
 
 		textField_1 = new JTextField(p_name);
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
@@ -116,7 +118,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_1.gridx = 1;
 		gbc_textField_1.gridy = 2;
-		add(textField_1, gbc_textField_1);
+		panel.add(textField_1, gbc_textField_1);
 		textField_1.setColumns(10);
 
 		JLabel lblBloodPressure = new JLabel("Blood Pressure");
@@ -124,7 +126,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_lblBloodPressure.insets = new Insets(0, 0, 5, 5);
 		gbc_lblBloodPressure.gridx = 0;
 		gbc_lblBloodPressure.gridy = 3;
-		add(lblBloodPressure, gbc_lblBloodPressure);
+		panel.add(lblBloodPressure, gbc_lblBloodPressure);
 
 		JLabel lblSystolic = new JLabel("Systolic");
 		GridBagConstraints gbc_lblSystolic = new GridBagConstraints();
@@ -132,7 +134,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_lblSystolic.anchor = GridBagConstraints.EAST;
 		gbc_lblSystolic.gridx = 1;
 		gbc_lblSystolic.gridy = 3;
-		add(lblSystolic, gbc_lblSystolic);
+		panel.add(lblSystolic, gbc_lblSystolic);
 
 		textField_2 = new JTextField();
 		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
@@ -140,7 +142,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_2.gridx = 2;
 		gbc_textField_2.gridy = 3;
-		add(textField_2, gbc_textField_2);
+		panel.add(textField_2, gbc_textField_2);
 		textField_2.setColumns(10);
 
 		JLabel lblDiastolic = new JLabel("Diastolic");
@@ -149,7 +151,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_lblDiastolic.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDiastolic.gridx = 3;
 		gbc_lblDiastolic.gridy = 3;
-		add(lblDiastolic, gbc_lblDiastolic);
+		panel.add(lblDiastolic, gbc_lblDiastolic);
 
 		textField_3 = new JTextField();
 		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
@@ -157,7 +159,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_3.gridx = 4;
 		gbc_textField_3.gridy = 3;
-		add(textField_3, gbc_textField_3);
+		panel.add(textField_3, gbc_textField_3);
 		textField_3.setColumns(10);
 
 		JLabel lblDiagnosis = new JLabel("Diagnosis");
@@ -166,7 +168,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_lblDiagnosis.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDiagnosis.gridx = 0;
 		gbc_lblDiagnosis.gridy = 4;
-		add(lblDiagnosis, gbc_lblDiagnosis);
+		panel.add(lblDiagnosis, gbc_lblDiagnosis);
 
 		textField_4 = new JTextField();
 		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
@@ -174,7 +176,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_4.gridx = 1;
 		gbc_textField_4.gridy = 4;
-		add(textField_4, gbc_textField_4);
+		panel.add(textField_4, gbc_textField_4);
 		textField_4.setColumns(10);
 
 		JLabel lblPrescribeMedication = new JLabel("Prescribe Medication");
@@ -183,7 +185,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_lblPrescribeMedication.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPrescribeMedication.gridx = 1;
 		gbc_lblPrescribeMedication.gridy = 5;
-		add(lblPrescribeMedication, gbc_lblPrescribeMedication);
+		panel.add(lblPrescribeMedication, gbc_lblPrescribeMedication);
 
 		JLabel lblDrugName = new JLabel("Drug Name");
 		GridBagConstraints gbc_lblDrugName = new GridBagConstraints();
@@ -191,7 +193,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_lblDrugName.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDrugName.gridx = 0;
 		gbc_lblDrugName.gridy = 6;
-		add(lblDrugName, gbc_lblDrugName);
+		panel.add(lblDrugName, gbc_lblDrugName);
 
 		textField_5 = new JTextField();
 		GridBagConstraints gbc_textField_5 = new GridBagConstraints();
@@ -199,7 +201,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_textField_5.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_5.gridx = 1;
 		gbc_textField_5.gridy = 6;
-		add(textField_5, gbc_textField_5);
+		panel.add(textField_5, gbc_textField_5);
 		textField_5.setColumns(10);
 
 		JLabel lblDosage = new JLabel("Dosage");
@@ -208,7 +210,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_lblDosage.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDosage.gridx = 0;
 		gbc_lblDosage.gridy = 7;
-		add(lblDosage, gbc_lblDosage);
+		panel.add(lblDosage, gbc_lblDosage);
 
 		textField_6 = new JTextField();
 		GridBagConstraints gbc_textField_6 = new GridBagConstraints();
@@ -216,7 +218,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_textField_6.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_6.gridx = 1;
 		gbc_textField_6.gridy = 7;
-		add(textField_6, gbc_textField_6);
+		panel.add(textField_6, gbc_textField_6);
 		textField_6.setColumns(10);
 
 		JLabel lblPerDay = new JLabel("per day");
@@ -224,7 +226,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_lblPerDay.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPerDay.gridx = 2;
 		gbc_lblPerDay.gridy = 7;
-		add(lblPerDay, gbc_lblPerDay);
+		panel.add(lblPerDay, gbc_lblPerDay);
 
 		JLabel lblDuration = new JLabel("Duration");
 		GridBagConstraints gbc_lblDuration = new GridBagConstraints();
@@ -232,7 +234,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_lblDuration.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDuration.gridx = 0;
 		gbc_lblDuration.gridy = 8;
-		add(lblDuration, gbc_lblDuration);
+		panel.add(lblDuration, gbc_lblDuration);
 
 		textField_7 = new JTextField();
 		GridBagConstraints gbc_textField_7 = new GridBagConstraints();
@@ -240,7 +242,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_textField_7.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_7.gridx = 1;
 		gbc_textField_7.gridy = 8;
-		add(textField_7, gbc_textField_7);
+		panel.add(textField_7, gbc_textField_7);
 		textField_7.setColumns(10);
 
 		JLabel lblMonths = new JLabel("months");
@@ -249,7 +251,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_lblMonths.insets = new Insets(0, 0, 5, 5);
 		gbc_lblMonths.gridx = 2;
 		gbc_lblMonths.gridy = 8;
-		add(lblMonths, gbc_lblMonths);
+		panel.add(lblMonths, gbc_lblMonths);
 
 		textField_8 = new JTextField();
 		GridBagConstraints gbc_textField_8 = new GridBagConstraints();
@@ -257,7 +259,7 @@ public class RecordVisitPanel extends JPanel {
 		gbc_textField_8.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_8.gridx = 3;
 		gbc_textField_8.gridy = 8;
-		add(textField_8, gbc_textField_8);
+		panel.add(textField_8, gbc_textField_8);
 		textField_8.setColumns(10);
 
 		JLabel lblDays = new JLabel("days");
@@ -265,14 +267,14 @@ public class RecordVisitPanel extends JPanel {
 		gbc_lblDays.insets = new Insets(0, 0, 5, 0);
 		gbc_lblDays.gridx = 4;
 		gbc_lblDays.gridy = 8;
-		add(lblDays, gbc_lblDays);
+		panel.add(lblDays, gbc_lblDays);
 
 		JLabel lblNotes = new JLabel("Notes");
 		GridBagConstraints gbc_lblNotes = new GridBagConstraints();
 		gbc_lblNotes.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNotes.gridx = 0;
 		gbc_lblNotes.gridy = 9;
-		add(lblNotes, gbc_lblNotes);
+		panel.add(lblNotes, gbc_lblNotes);
 
 		textArea = new JTextArea();
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
@@ -280,14 +282,21 @@ public class RecordVisitPanel extends JPanel {
 		gbc_textArea.fill = GridBagConstraints.BOTH;
 		gbc_textArea.gridx = 1;
 		gbc_textArea.gridy = 9;
-		add(textArea, gbc_textArea);
+		panel.add(textArea, gbc_textArea);
+
+		JButton btnAdd = new JButton("Add");
+		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
+		gbc_btnAdd.gridx = 2;
+		gbc_btnAdd.gridy = 9;
+		panel.add(btnAdd, gbc_btnAdd);
+		btnAdd.addActionListener(new AddSubmitPerformer());
 
 		JButton btnGoBack = new JButton("Go Back");
 		GridBagConstraints gbc_btnGoBack = new GridBagConstraints();
 		gbc_btnGoBack.insets = new Insets(0, 0, 0, 5);
 		gbc_btnGoBack.gridx = 3;
 		gbc_btnGoBack.gridy = 9;
-		add(btnGoBack, gbc_btnGoBack);
+		panel.add(btnGoBack, gbc_btnGoBack);
 		btnGoBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panel.removeAll();
@@ -298,15 +307,16 @@ public class RecordVisitPanel extends JPanel {
 		}
 				);
 
-		JButton btnAddNewPrescription = new JButton("Add");
-		GridBagConstraints gbc_btnAddNewPrescription = new GridBagConstraints();
-		gbc_btnAddNewPrescription.gridx = 4;
-		gbc_btnAddNewPrescription.gridy = 9;
-		add(btnAddNewPrescription, gbc_btnAddNewPrescription);
+		JButton btnSubmit = new JButton("Submit");
+		GridBagConstraints gbc_btnSubmit = new GridBagConstraints();
+		gbc_btnSubmit.gridx = 4;
+		gbc_btnSubmit.gridy = 9;
+		panel.add(btnSubmit, gbc_btnSubmit);
+		btnSubmit.addActionListener(new AddSubmitPerformer());
 
 	}
 
-	private class AddAddPerformer implements ActionListener{
+	private class AddSubmitPerformer implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
 			String dateOfVisit = textField.getText();
@@ -334,32 +344,48 @@ public class RecordVisitPanel extends JPanel {
 
 
 
-			ArrayList<String> prescriptions = new ArrayList<String>();
+			
 			String sql = "SELECT P_Username FROM Patient WHERE Name = '"+patientName+"'"; //get p_username
-			String sql1 = "SELECT P_Username FROM Visit WHERE P_Username = '"+ p_username+"' AND D_LicenseNumber = '"+licenseNumber+"'"; //1st time?
-			String sql2 = "INSERT INTO Visit (D_LicenseNumber, P_Username, DateOfVisit, Systolic, Diastolic, BillingAmount) VALUES ('"+licenseNumber+"', '"+p_username+"', '"+dateOfVisit+"', '"+bpS+"','"+bpD+"', '"+billing+"')";
-			String sql3 = "INSERT INTO Diagnosis_new (D_LicenseNumber, P_Username, DateOfVisit, Diagnosis) VALUES ('"+licenseNumber+"', '"+p_username+"', '"+dateOfVisit+"', '"+diagnosis+"')";
-			String sql4 = "INSERT INTO Prescription (D_LicenseNumber, P_Username DateOfVisit, MedicineName, Dosage, Duration, Notes) VALUES ('"+licenseNumber+"', '"+p_username+"', '"+dateOfVisit+"', '"+drugName+"', '"+dosage+"', '"+duration+"', '"+notes+"')";
-			String sql5 = "DELETE FROM RequestsAppointment WHERE P_Username = '" +p_username+"' AND D_LicenseNumber = '"+licenseNumber+"'";
+
+
 
 			ResultSet rs;
 			try {
 				rs = stmt.executeQuery(sql);
 				rs.next();
 				p_username = rs.getString("P_Username");
+				String sql1 = "SELECT P_Username FROM Visit WHERE P_Username = '"+ p_username+"' AND D_LicenseNumber = '"+licenseNumber+"'"; //1st time?
+
 				rs = stmt.executeQuery(sql1);
 				if (rs.next())
 					billing = "150";
 				else billing = "200";
-				
-				con.setAutoCommit(false);
-				stmt.addBatch(sql2);
-				stmt.addBatch(sql3);
-				stmt.addBatch(sql4);
-				stmt.addBatch(sql5);
-				stmt.executeBatch();
-				con.commit();
-				
+
+				if ((((JButton) e.getSource()).getActionCommand()).equals("Add")){
+					String s3 = "INSERT INTO Prescription (D_LicenseNumber, P_Username, DateOfVisit, MedicineName, Dosage, Duration, Notes) VALUES ('"+licenseNumber+"', '"+p_username+"', '"+dateOfVisit+"', '"+drugName+"', '"+dosage+"', '"+duration+"', '"+notes+"')";
+					prescriptions.add(s3);
+					
+				}
+				else {
+
+					String sql2 = "INSERT INTO Visit (D_LicenseNumber, P_Username, DateOfVisit, Systolic, Diastolic, BillingAmount) VALUES ('"+licenseNumber+"', '"+p_username+"', '"+dateOfVisit+"', '"+bpS+"','"+bpD+"', '"+billing+"')";
+					String sql3 = "INSERT INTO Diagnosis_new (D_LicenseNumber, P_Username, DateOfVisit, Diagnosis) VALUES ('"+licenseNumber+"', '"+p_username+"', '"+dateOfVisit+"', '"+diagnosis+"')";
+					String sql4 = "INSERT INTO Prescription (D_LicenseNumber, P_Username, DateOfVisit, MedicineName, Dosage, Duration, Notes) VALUES ('"+licenseNumber+"', '"+p_username+"', '"+dateOfVisit+"', '"+drugName+"', '"+dosage+"', '"+duration+"', '"+notes+"')";
+					String sql5 = "DELETE FROM RequestsAppointment WHERE P_Username = '" +p_username+"' AND D_LicenseNumber = '"+licenseNumber+"'";
+					con.setAutoCommit(false);
+					
+					stmt.addBatch(sql2);
+					stmt.addBatch(sql3);
+					stmt.addBatch(sql4);
+					stmt.addBatch(sql5);
+					for (int i=0;i<prescriptions.size();i++) {
+						stmt.addBatch(prescriptions.get(i));
+					}
+					stmt.executeBatch();
+					con.commit();
+					
+					
+				}
 
 			} catch (SQLException e2) {
 				// TODO Auto-generated catch block
