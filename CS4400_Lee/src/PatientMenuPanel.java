@@ -23,6 +23,9 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class PatientMenuPanel extends JPanel {
@@ -69,9 +72,21 @@ public class PatientMenuPanel extends JPanel {
 		panel.add(btnEditProfile);
 		btnEditProfile.addActionListener(new AddEditProfile());
 
-		JButton btnMessages = new JButton("Messages");
-		panel.add(btnMessages);
-		btnMessages.addActionListener(new AddMessages());
+		
+		String query = "SELECT Count(Status) From Sends_message_to_Pat where Status = 'Unread' AND P_username = '"+p_username+"'";
+		try {
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(query);
+			rs.next();
+			JButton btnMessages = new JButton(rs.getString(1) + " Unread Messages");
+			panel.add(btnMessages);
+			btnMessages.addActionListener(new AddMessages());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
 		
 		
 		backButton = new JButton("Log Out");

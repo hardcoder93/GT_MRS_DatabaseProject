@@ -1,4 +1,4 @@
-import javax.swing.JPanel;
+import javax.swing.JPanel; 
 import javax.swing.JButton;
 
 import java.awt.GridBagConstraints;
@@ -6,7 +6,6 @@ import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -59,10 +58,6 @@ public class DoctorMenuPanel extends JPanel {
 		panel.add(btnEditProfile);
 		btnEditProfile.addActionListener(new AddEditProfile());
 		
-		JButton btnMessages = new JButton("Messages");
-		panel.add(btnMessages);
-		btnMessages.addActionListener(new AddMessages());
-		
 		Statement stmt = null;
 
 		try {
@@ -93,6 +88,19 @@ public class DoctorMenuPanel extends JPanel {
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		}
+		
+		String query = "SELECT COUNT( * ) FROM (SELECT * FROM Sends_message_to_Doc WHERE status =  'Unread' AND d_licensenumber = '" + d_licenseNumber + "' UNION SELECT * FROM CommunicateWith WHERE  Status =  'Unread' AND Receiver_LicenseNumber = '"+d_licenseNumber+"') AS dt";
+		try {
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(query);
+			rs.next();
+			JButton btnMessages = new JButton(rs.getString(1) + " Unread Messages");
+			panel.add(btnMessages);
+			btnMessages.addActionListener(new AddMessages());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		
