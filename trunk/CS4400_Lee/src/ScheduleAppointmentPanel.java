@@ -1,5 +1,6 @@
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.GridLayout; 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
+
 
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -55,9 +57,27 @@ public class ScheduleAppointmentPanel{
 			}
 		});
 		
+		JButton backButton = new JButton("Return To Home Page");
+		panel.add(backButton);
+		backButton.addActionListener(new AddBack());
+		
 		table = new JTable();
 		panel.add(specialtyCombo);
 		panel.add(search);
+		
+		
+		
+
+	}
+
+	private class AddBack implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new PatientMenuPanel(panel,con,user);
+			panel.validate();
+			panel.repaint();
+		}
 	}
 	
 	private void getAvailabilities(){
