@@ -1,10 +1,12 @@
 import javax.swing.JPanel;
 import javax.swing.JButton;
 
+import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -21,6 +23,7 @@ public class DoctorMenuPanel extends JPanel {
 	private JPanel panel;
 	private String d_username;
 	private String d_licenseNumber;
+	private JButton backButton;
 
 	/**
 	 * Create the panel.
@@ -91,10 +94,26 @@ public class DoctorMenuPanel extends JPanel {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
+		
+		
+		backButton = new JButton("Log Out");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.gridx = 0;
+		gbc_b.gridy = 9;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new AddBack());
 
 	}
 
+	private class AddBack implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new LoginPanel(panel,con);
+			panel.validate();
+			panel.repaint();
+		}
+	}
 
 	private class AddViewAppointmentsCalendar implements ActionListener{
 
