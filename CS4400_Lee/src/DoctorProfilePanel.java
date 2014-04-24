@@ -225,7 +225,7 @@ public class DoctorProfilePanel {
 
 		comboBox_1 = new JComboBox();
 		comboBox_1.setFont(new Font("Aharoni", Font.PLAIN, 12));
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"24-04-2014", "25-04-2014", "26-04-2014", "27-04-2014", "28-04-2014", "28-04-2014", "29-04-2014"}));
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"24/04/2014", "25/04/2014", "26/04/2014", "27/04/2014", "28/04/2014", "29/04/2014", "30/04/2014","01/05/2014"}));
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
 		gbc_comboBox_1.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
