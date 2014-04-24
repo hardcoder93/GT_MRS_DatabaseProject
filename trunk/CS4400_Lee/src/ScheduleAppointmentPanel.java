@@ -58,6 +58,7 @@ public class ScheduleAppointmentPanel{
 		});
 		
 		JButton backButton = new JButton("Return To Home Page");
+		backButton.setBounds(180, 30, 200, 21);
 		panel.add(backButton);
 		backButton.addActionListener(new AddBack());
 		
