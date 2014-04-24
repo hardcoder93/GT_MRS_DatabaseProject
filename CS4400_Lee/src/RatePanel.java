@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -39,7 +40,22 @@ public class RatePanel{
 		this.P_username = P_username; 
 		Statement stmt = null;
 		
-		
+		JButton backButton = new JButton("Return To Home Page");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.gridx = 0;
+		gbc_b.gridy = 9;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new ActionListener() {
+
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new PatientMenuPanel(panel,con,P_username);
+			panel.validate();
+			panel.repaint();
+		}
+	});
+
 		System.out.println("Creating statement...");
 		try {
 			stmt = con.createStatement();
@@ -49,7 +65,7 @@ public class RatePanel{
 		}
 
 		
-		String sql = "SELECT LicenseNumber, LastName, FirstName FROM Doctor";
+		String sql = "SELECT DISTINCT D_LicenseNumber, LastName, FirstName FROM Patient as p, Visit as v, Doctor as d WHERE p.P_username = v.P_username AND licenseNumber = d_licensenumber AND p.P_username = '" + P_username + "'";
 		//String sql2 = "SELECT D_LicenseNumber FROM Doctor";
 		//System.out.println(sql);
 		try {
@@ -58,7 +74,7 @@ public class RatePanel{
 			ArrayList<String> arrayList = new ArrayList<String>();
 			while (rs.next()) {
 				arrayList.add(rs.getString("FirstName") + rs.getString("LastName"));
-				arrayList2.add(rs.getString("LicenseNumber"));
+				arrayList2.add(rs.getString("D_LicenseNumber"));
 			}
 			panel.setBackground(new Color(224, 255, 255));
 			GridBagLayout gridBagLayout = new GridBagLayout();
@@ -132,23 +148,6 @@ public class RatePanel{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		JButton backButton = new JButton("Return To Home Page");
-		GridBagConstraints gbc_b = new GridBagConstraints();
-		gbc_b.gridx = 0;
-		gbc_b.gridy = 9;
-		panel.add(backButton, gbc_b);
-		backButton.addActionListener(new ActionListener() {
-
-
-		public void actionPerformed(ActionEvent e) {
-			panel.removeAll();
-			new PatientMenuPanel(panel,con,P_username);
-			panel.validate();
-			panel.repaint();
-		}
-	});
-
 	}
 	private class SubmitRatePerformer implements ActionListener{
 
@@ -158,41 +157,37 @@ public class RatePanel{
 			int i = comboBox.getSelectedIndex();
 			String licenseNumber = arrayList2.get(i);
 			Statement stmt = null;
-			Statement stmt2 = null;
+
 
 			try {
 				stmt = con.createStatement();
-				stmt2 = con.createStatement();
 			} catch (SQLException k) {
 				// TODO Auto-generated catch block
 				k.printStackTrace();
 			}
-			String sql = "INSERT INTO Rates(D_LicenseNumber, P_Username, Rating) VALUES ('"+licenseNumber+"','"+ P_username+"','"+rating+"')";
-			String sql2 = "UPDATE Rates SET Rating = '"+rating+"' WHERE D_LicenseNumber = '" + licenseNumber+"' AND P_Username = '"+ P_username+"'";
-			String sql3 = "SELECT Rating FROM Rates WHERE D_LicenseNumber = '"+licenseNumber+"' AND P_Username = '"+P_username+"'";
+			String sql = "";
+			Statement rates;
 			try {
-				ResultSet rs = stmt.executeQuery(sql3);
-				if (rs.next()){
-					stmt2.execute(sql2);
+				rates = con.createStatement();
+				ResultSet ratesRs = rates.executeQuery("SELECT Rating From Rates where D_LicenseNumber = '" + licenseNumber + "' AND P_Username = '"+P_username+"'");
+				if(ratesRs.next()){
+					sql = "UPDATE Rates SET Rating = '"+rating+"' WHERE D_LicenseNumber = '" + licenseNumber + "' AND P_Username = '" + P_username + "'";
 				}
-				else stmt2.execute(sql);
-			} catch (SQLException m) {
-
-				m.printStackTrace();
-			} 
-
-
-			//rs.close();
-			try {
+				else{
+					sql = "INSERT INTO Rates(D_LicenseNumber, P_Username, Rating) VALUES ('"+licenseNumber+"','"+ P_username+"','"+rating+"')";
+				}
+				
+				stmt.execute(sql);
 				stmt.close();
-				stmt2.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 
+
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
 			
-			btnNewButton.setText("Thank you.");
+			JOptionPane.showMessageDialog(panel, "Thank you for your rating.");
+			
 		}
 	}
 }

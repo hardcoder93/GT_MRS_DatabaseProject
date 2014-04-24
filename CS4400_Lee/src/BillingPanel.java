@@ -1,3 +1,4 @@
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -51,9 +52,12 @@ public class BillingPanel {
 		JButton search = new JButton("Search");
 		search.addActionListener(new ActionListener() {
 			
+			private JScrollPane namePane;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
+					usernames.clear();
 					final Statement stmt = con.createStatement();
 					String nameQuery = "SELECT Name, HomePhone, P_username FROM Patient where Name = '" + nameField.getText() + "'";
 					ResultSet nameResults = stmt.executeQuery(nameQuery);
@@ -72,7 +76,14 @@ public class BillingPanel {
 					}
 					
 					final JTable nameTable = new JTable(model);
-					JScrollPane namePane = new JScrollPane(nameTable);
+					
+					Component[] components = panel.getComponents();
+				    for (Component component : components) {
+				    	if(component == namePane){
+				    		panel.remove(namePane);
+				    	}
+				    }
+					namePane = new JScrollPane(nameTable);
 					
 					JButton create = new JButton("Create Bill");
 					GridBagConstraints createc = new GridBagConstraints();
@@ -80,6 +91,8 @@ public class BillingPanel {
 					createc.gridy = 2;
 					create.addActionListener(new ActionListener() {
 						
+						private JScrollPane visitsPane;
+
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							int selI = nameTable.getSelectedRow();
@@ -125,7 +138,13 @@ public class BillingPanel {
 								
 								
 								JTable visitsTable = new JTable(model2);
-								JScrollPane visitsPane = new JScrollPane(visitsTable);
+								Component[] components = panel.getComponents();
+							    for (Component component : components) {
+							    	if(component == visitsPane){
+							    		panel.remove(visitsPane);
+							    	}
+							    }
+								visitsPane = new JScrollPane(visitsTable);
 								
 								GridBagConstraints visitsPanec = new GridBagConstraints();
 								visitsPanec.gridwidth = 82;

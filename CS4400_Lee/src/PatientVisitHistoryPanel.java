@@ -91,6 +91,7 @@ public class PatientVisitHistoryPanel extends JPanel {
 				model2.addColumn("Phone");
 				
 				try {
+					usernames.clear();
 					Statement stmt2 = con.createStatement();
 					String searchQuery = "SELECT DISTINCT Name, HomePhone, p.P_Username FROM Patient AS p INNER JOIN Visit AS v ON p.P_UserName = v.P_UserName WHERE D_LicenseNumber = '" + licenseNumber + "' AND ( Name =  '" + nameField.getText() + "' OR HomePhone = '" + phoneField.getText() + "')";
 					ResultSet searchResults = stmt2.executeQuery(searchQuery);
