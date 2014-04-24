@@ -41,7 +41,7 @@ public class DoctorProfilePanel {
 	/**
 	 * Create the panel.
 	 */
-	public DoctorProfilePanel(JPanel panel, Connection con, String d_username) {
+	public DoctorProfilePanel(final JPanel panel, final Connection con, final String d_username) {
 		this.panel = panel;
 		this.con = con;
 		this.d_username = d_username;
@@ -52,6 +52,23 @@ public class DoctorProfilePanel {
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gridBagLayout);
+		
+		JButton backButton = new JButton("Return To Login Page");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.insets = new Insets(0, 0, 0, 5);
+		gbc_b.gridx = 16;
+		gbc_b.gridy = 14;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new ActionListener() {
+
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new LoginPanel(panel,con);
+			panel.validate();
+			panel.repaint();
+		}
+	});
 
 		JLabel lblPatientProfile = new JLabel("Doctor Profile");
 		lblPatientProfile.setFont(new Font("Consolas", Font.BOLD, 25));
