@@ -102,7 +102,11 @@ public class LoginPanel{
 		gbc_btnNewButton.gridy = 9;
 		panel.add(btnNewButton, gbc_btnNewButton);
 
-		JLabel label = new JLabel("");
+		label = new JLabel("");
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.gridx = 6;
+		gbc_label.gridy = 10;
+		panel.add(label, gbc_label);
 
 		createAccountButton.addActionListener(new AddCreatePerformer());
 		btnNewButton.addActionListener(new AddLoginPerformer());
@@ -120,7 +124,6 @@ public class LoginPanel{
 
 			Statement stmt = null;
 			Statement stmt2 = null;
-			System.out.println("Creating statement...");
 			try {
 				stmt = con.createStatement();
 				stmt2 = con.createStatement();
@@ -141,7 +144,6 @@ public class LoginPanel{
 					String user = rs.getString("Username");
 					String pass = rs.getString("Password");
 					String type = rs.getString("UserType");
-					System.out.println("" + user + "" + pass + "" + type + "");
 					if (user.equals(username) && pass.equals(password) && type.equals("Patient")) {	  // make if user exists, it goes straight to home
 						rs2 = stmt2.executeQuery(sql2);
 						boolean goToMenu = false;
@@ -187,6 +189,7 @@ public class LoginPanel{
 						panel.validate();
 						panel.repaint();
 					}
+					else label.setText("Incorrect username or password.");
 				}
 			} catch (SQLException m) {
 
@@ -195,8 +198,6 @@ public class LoginPanel{
 
 
 
-
-			//rs.close();
 			try {
 				stmt.close();
 			} catch (SQLException e1) {
