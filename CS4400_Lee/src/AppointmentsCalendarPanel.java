@@ -128,7 +128,7 @@ public class AppointmentsCalendarPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(comboBox.getSelectedItem() != " "){
-					String date = comboBox.getSelectedItem() + " " + comboBox_1.getSelectedItem();
+					String date = comboBox.getSelectedItem() + "/" + comboBox_1.getSelectedItem()+"/"+textField.getText();
 					try {
 						PreparedStatement stmt = con.prepareStatement("SELECT Name, HomePhone, ScheduledTime FROM RequestsAppointment AS ra, Patient AS p WHERE DATE =  \"" + date + "\" AND ra.P_UserName = p.P_UserName AND d_licensenumber = '" + licenseNumber + "' ORDER BY ScheduledTime ASC");
 						ResultSet rs = stmt.executeQuery();
@@ -193,9 +193,9 @@ public class AppointmentsCalendarPanel extends JPanel {
 						block.add(day,BorderLayout.NORTH);
 						
 						try {
-							String parts[] = ((String) comboBox_1.getSelectedItem()).split(" ");
-							String month = parts[0];
-							String query = "SELECT Count(*) FROM RequestsAppointment WHERE D_LicenseNumber = '" + licenseNumber + "' AND Date = '" + month + " " + i + "'";
+							String month = (String) comboBox_1.getSelectedItem();
+							String query = "SELECT Count(*) FROM RequestsAppointment WHERE D_LicenseNumber = '" + licenseNumber + "' AND Date like '%"+i+"/" + month + "/%"+textField.getText() + "'";
+							System.out.println(query);
 							PreparedStatement statement = con.prepareStatement(query);
 							ResultSet rs = statement.executeQuery();
 							rs.next();
