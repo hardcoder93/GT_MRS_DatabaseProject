@@ -166,13 +166,10 @@ public class PaymentInformationPanel extends JPanel {
 				k.printStackTrace();
 			}
 
-
 			sql = "INSERT INTO PaymentInformation(CardNumber,CVV,DateOfExpiry,Type,CardHolderName) VALUES('"+number+"','"+cvv+"','"+
 					date+"','"+type+"','"+name+"')";
 			sql1 = "UPDATE PaymentInformation SET CVV = '"+ cvv +"', DateOfExpiry = '"+date+ "'," + 
 					"Type = '"+ type +"', CardHolderName = '"+ name+"' WHERE CardNumber ='" + number+"'";
-			String medName = null;
-			sql2 = "UPDATE Prescription SET OrderedBy= '"+p_username+"' WHERE P_Username='"+p_username+"', MedicineName = '"+medName +"'";
 			sql3 = "SELECT CardNumber FROM PaymentInformation WHERE CardNumber = '"+number+"'";
 			
 			// store card info
@@ -194,7 +191,8 @@ public class PaymentInformationPanel extends JPanel {
 			try {
 				
 				for (int i=0;i< basket.size();i++){
-					medName = basket.get(i);
+					String medName = basket.get(i);
+					sql2 = "UPDATE Prescription SET OrderedBy= '"+p_username+"' WHERE P_Username='"+p_username+"' AND MedicineName = '"+medName +"'";
 					stmt.execute(sql2);
 				}
 

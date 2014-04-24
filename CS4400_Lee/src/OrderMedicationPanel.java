@@ -33,12 +33,13 @@ import javax.swing.SwingConstants;
 
 public class OrderMedicationPanel extends JPanel {
 	private JTextField textField;
-	private JTextField textField_1;
 	private JTextField textField_2;
 	private JPanel panel; private Connection con;
 	private JComboBox comboBox,comboBox_2,comboBox_3;
 	private String p_username;
 	private ArrayList<String> basket;
+	private ArrayList<String> licenses;
+	private JComboBox comboBox_4;
 	private JButton backButton;
 	/**
 	 * Create the panel.
@@ -49,6 +50,7 @@ public class OrderMedicationPanel extends JPanel {
 		this.p_username = p_username;
 		panel.setLayout(new GridLayout(0, 1, 0, 0));
 		basket = new ArrayList<String>();
+		licenses = new ArrayList<String>();
 
 		JLabel lblOrderMedicationFrom = new JLabel("Order Medication from Pharmacy");
 		lblOrderMedicationFrom.setForeground(new Color(255, 99, 71));
@@ -91,15 +93,18 @@ public class OrderMedicationPanel extends JPanel {
 		splitPane_4.setRightComponent(panel_1);
 
 		comboBox_2 = new JComboBox();
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9"}));
+		for(int i = 1; i < 100; i++){
+			comboBox_2.addItem(i+"");
+		}
+		//comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9"}));
 		panel_1.add(comboBox_2);
 
-		JLabel lblMonths = new JLabel("months");
-		panel_1.add(lblMonths);
-
-		comboBox_3 = new JComboBox();
-		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
-		panel_1.add(comboBox_3);
+//		JLabel lblMonths = new JLabel("months");
+//		panel_1.add(lblMonths);
+//
+//		comboBox_3 = new JComboBox();
+//		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
+//		panel_1.add(comboBox_3);
 
 		JLabel lblDays = new JLabel("days");
 		panel_1.add(lblDays);
@@ -110,10 +115,23 @@ public class OrderMedicationPanel extends JPanel {
 		JLabel lblConsultingDoctor = new JLabel("Consulting Doctor");
 		splitPane_1.setLeftComponent(lblConsultingDoctor);
 
-		textField_1 = new JTextField();
-		splitPane_1.setRightComponent(textField_1);
-		textField_1.setColumns(10);
-
+		comboBox_4 = new JComboBox();
+		splitPane_1.setRightComponent(comboBox_4);
+		String sql = "SELECT FirstName,LastName, LicenseNumber FROM Doctor";
+		Statement statement;
+		try {
+			statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				comboBox_4.addItem("Dr. " + rs.getString(1) + " " + rs.getString(2));
+				licenses.add(rs.getString(3));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		JSplitPane splitPane_3 = new JSplitPane();
 		panel.add(splitPane_3);
 
@@ -156,14 +174,14 @@ public class OrderMedicationPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			String medName = textField.getText();
 			String dosage = (String)comboBox.getSelectedItem();
-			String durationM = (String)comboBox_2.getSelectedItem();
-			String durationD = (String)comboBox_3.getSelectedItem();
-			String duration = durationM +"/" +durationD;        // FORMAT!!! errata
-			String doctor = textField_1.getText();
+			String duration = (String)comboBox_2.getSelectedItem();
+			String doctor = (String) comboBox_4.getSelectedItem();
+			String license = licenses.get(comboBox_4.getSelectedIndex());
 			String date = textField_2.getText();
 
 			Statement stmt = null;
 
+			System.out.println("Creating statement...");
 			try {
 				stmt = con.createStatement();
 			} catch (SQLException k) {
@@ -172,6 +190,8 @@ public class OrderMedicationPanel extends JPanel {
 			}
 
 			String sql = null;
+			String sql2 = null;
+
 
 			sql = "SELECT D_LicenseNumber,P_Username,DateOfVisit,MedicineName,Dosage,Duration FROM Prescription";
 			//sql2 = 
@@ -182,7 +202,8 @@ public class OrderMedicationPanel extends JPanel {
 
 				while(rs.next()) {
 					if (p_username.equals(rs.getString("P_Username")) && dosage.equals(rs.getString("Dosage")) && duration.equals(rs.getString("duration")) &&
-							date.equals(rs.getString("DateOfVisit"))){
+							date.equals(rs.getString("DateOfVisit")) && license.equals(rs.getString("D_LicenseNumber")) 
+							&& medName.equals(rs.getString("MedicineName"))){
 
 						panel.removeAll();
 						new PaymentInformationPanel(panel,con,p_username,basket);
@@ -212,10 +233,9 @@ public class OrderMedicationPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			String medName = textField.getText();
 			String dosage = (String)comboBox.getSelectedItem();
-			String durationM = (String)comboBox_2.getSelectedItem();
-			String durationD = (String)comboBox_3.getSelectedItem();
-			String duration = durationM +"/" +durationD;        // FORMAT!!! errata
-			String doctor = textField_1.getText();
+			String duration = (String)comboBox_2.getSelectedItem();
+			String doctor = (String) comboBox_4.getSelectedItem();
+			String license = licenses.get(comboBox_4.getSelectedIndex());
 			String date = textField_2.getText();
 
 			Statement stmt = null;
@@ -237,7 +257,7 @@ public class OrderMedicationPanel extends JPanel {
 				ResultSet rs = stmt.executeQuery(sql);
 				while(rs.next()) {
 					if (p_username.equals(rs.getString("P_Username")) && dosage.equals(rs.getString("Dosage")) && duration.equals(rs.getString("duration")) &&
-							date.equals(rs.getString("DateOfVisit")) && medName.equals(rs.getString("MedicineName"))){
+							date.equals(rs.getString("DateOfVisit")) && medName.equals(rs.getString("MedicineName")) && license.equals(rs.getString("D_LicenseNumber"))){
 						basket.add(medName);
 						System.out.println("Success!");
 						break;

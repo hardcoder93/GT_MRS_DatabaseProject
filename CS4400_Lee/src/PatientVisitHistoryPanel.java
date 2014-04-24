@@ -3,6 +3,7 @@ import java.awt.GridBagLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Insets;
@@ -60,6 +61,8 @@ public class PatientVisitHistoryPanel extends JPanel {
 		JButton search = new JButton("Search");
 		search.addActionListener(new ActionListener() {
 			
+			private JScrollPane patientPane;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
@@ -69,7 +72,7 @@ public class PatientVisitHistoryPanel extends JPanel {
 				
 				try {
 					Statement stmt2 = con.createStatement();
-					String searchQuery = "SELECT Name, HomePhone, p.P_Username FROM Patient AS p INNER JOIN Visit AS v ON p.P_UserName = v.P_UserName WHERE D_LicenseNumber = '" + licenseNumber + "' AND ( Name =  '" + nameField.getText() + "' OR HomePhone = '" + phoneField.getText() + "')";
+					String searchQuery = "SELECT DISTINCT Name, HomePhone, p.P_Username FROM Patient AS p INNER JOIN Visit AS v ON p.P_UserName = v.P_UserName WHERE D_LicenseNumber = '" + licenseNumber + "' AND ( Name =  '" + nameField.getText() + "' OR HomePhone = '" + phoneField.getText() + "')";
 					ResultSet searchResults = stmt2.executeQuery(searchQuery);
 					
 					while(searchResults.next()) {
@@ -82,7 +85,13 @@ public class PatientVisitHistoryPanel extends JPanel {
 					}
 					
 					final JTable patientTable = new JTable(model2);
-					JScrollPane patientPane = new JScrollPane(patientTable);
+					 Component[] components = panel.getComponents();
+					    for (Component component : components) {
+					    	if(component == patientPane){
+					    		panel.remove(component);
+					    	}
+					    }
+					patientPane = new JScrollPane(patientTable);
 					
 					GridBagConstraints patientPanec = new GridBagConstraints();
 					patientPanec.gridwidth = 70;
@@ -124,6 +133,8 @@ public class PatientVisitHistoryPanel extends JPanel {
 									
 									button.addActionListener(new ActionListener() {
 										
+										private JScrollPane pane;
+
 										@Override
 										public void actionPerformed(ActionEvent e) {
 											JButton caller = (JButton)e.getSource();
@@ -172,7 +183,14 @@ public class PatientVisitHistoryPanel extends JPanel {
 												panec.weightx = 1;
 												panec.weighty = 1;
 												panec.fill = GridBagConstraints.BOTH;
-												JScrollPane pane = new JScrollPane(table);
+												
+												 Component[] components = panel.getComponents();
+												    for (Component component : components) {
+												    	if(component == pane){
+												    		panel.remove(pane);
+												    	}
+												    }
+												pane = new JScrollPane(table);
 												panel.add(pane, panec);
 												
 												panel.revalidate();
@@ -198,6 +216,7 @@ public class PatientVisitHistoryPanel extends JPanel {
 					});
 					panel.add(view, viewc);
 					panel.add(create, createc);
+					
 					panel.add(patientPane,patientPanec);
 
 					panel.revalidate();
