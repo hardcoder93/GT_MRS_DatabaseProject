@@ -1,4 +1,7 @@
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -16,11 +20,27 @@ public class DoctorPerformancePanel extends JPanel {
 	private Connection con;
 	private ArrayList<String> specialties;
 	
-	public DoctorPerformancePanel(JPanel panel, Connection con){
+	public DoctorPerformancePanel(final JPanel panel, final Connection con){
 		this.panel = panel;
 		this.con = con;
 		panel.setLayout(new FlowLayout());
 		specialties = new ArrayList<String>();
+		
+		JButton backButton = new JButton("Return To Home Page");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.gridx = 0;
+		gbc_b.gridy = 9;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new ActionListener() {
+
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new AdminMenuPanel(panel,con);
+			panel.validate();
+			panel.repaint();
+		}
+	});
 		
 		DefaultTableModel model = new DefaultTableModel();
 		model.addColumn("Specialty");
