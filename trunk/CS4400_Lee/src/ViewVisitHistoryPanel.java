@@ -1,7 +1,10 @@
 import javax.swing.JPanel;
+
 import java.awt.GridBagLayout;
 import java.awt.Color;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Insets;
@@ -24,6 +27,8 @@ import javax.swing.JScrollBar;
 import javax.swing.table.DefaultTableModel;
 
 
+
+
 public class ViewVisitHistoryPanel extends JPanel {
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -31,14 +36,14 @@ public class ViewVisitHistoryPanel extends JPanel {
 	private JComboBox comboBox_1;
 	
 	private JPanel panel;
-	private Connection con;
+	private static Connection con;
 	private String username;
 	ArrayList<String> licenses;
 	ArrayList<JButton> dateButtons;
 	/**
 	 * Create the panel.
 	 */
-	public ViewVisitHistoryPanel(final JPanel panel, Connection con, final String username) {
+	public ViewVisitHistoryPanel(final JPanel panel, final Connection con, final String username) {
 		this.panel = panel;
 		this.con = con;
 		this.username = username;
@@ -70,6 +75,23 @@ public class ViewVisitHistoryPanel extends JPanel {
 		gbc_lblDatesOfVisits.gridy = 2;
 		panel.add(lblDatesOfVisits, gbc_lblDatesOfVisits);
 		
+
+		JButton backButton = new JButton("Return To Home Page");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.gridx = 0;
+		gbc_b.gridy = 9;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new ActionListener() {
+
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new PatientMenuPanel(panel,con,username);
+			panel.validate();
+			panel.repaint();
+		}
+	});
+		
 		try {
 			final Statement stmt = con.createStatement();
 			String query = "SELECT DateOfVisit, D_LicenseNumber From Visit WHERE P_Username = '" + username +"'";
@@ -84,6 +106,7 @@ public class ViewVisitHistoryPanel extends JPanel {
 				buttonc.gridwidth = 2;
 				licenses.add(rs.getString(2));
 				dateButtons.add(button);
+
 				
 				button.addActionListener(new ActionListener() {
 					
