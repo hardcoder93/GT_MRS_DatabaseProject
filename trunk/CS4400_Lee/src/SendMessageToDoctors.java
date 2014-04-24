@@ -1,6 +1,9 @@
 import javax.swing.JPanel;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Insets;
@@ -16,6 +19,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -35,15 +39,15 @@ public class SendMessageToDoctors{
 	/**
 	 * Create the panel.
 	 */
-	public SendMessageToDoctors(JPanel panel, Connection con, String d_username) 
+	public SendMessageToDoctors(final JPanel panel, final Connection con, final String d_username) 
 	{
 
 		this.panel = panel;
 		this.con = con;
 		this.d_username = d_username;
+		
 		Statement stmt = null;
 		Statement stmt2 = null;
-		System.out.println("Creating statement...");
 		try {
 			stmt = con.createStatement();
 			stmt2 = con.createStatement();
@@ -170,6 +174,24 @@ public class SendMessageToDoctors{
 		gbc_txtDdddddddddddddddddddd.gridy = 4;
 		panel.add(txtDdddddddddddddddddddd, gbc_txtDdddddddddddddddddddd);
 		txtDdddddddddddddddddddd.setColumns(10);
+		
+		JButton backButton = new JButton("Return To Home Page");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.insets = new Insets(0, 0, 0, 5);
+		gbc_b.gridx = 7;
+		gbc_b.gridy = 14;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new ActionListener() {
+
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new DoctorMenuPanel(panel,con,d_username);
+			panel.validate();
+			panel.repaint();
+		}
+	});
+		
 		
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.setFont(new Font("Bodoni MT", Font.BOLD, 14));
