@@ -39,22 +39,7 @@ public class RatePanel{
 		this.P_username = P_username; 
 		Statement stmt = null;
 		
-		JButton backButton = new JButton("Return To Home Page");
-		GridBagConstraints gbc_b = new GridBagConstraints();
-		gbc_b.gridx = 0;
-		gbc_b.gridy = 9;
-		panel.add(backButton, gbc_b);
-		backButton.addActionListener(new ActionListener() {
-
-
-		public void actionPerformed(ActionEvent e) {
-			panel.removeAll();
-			new PatientMenuPanel(panel,con,P_username);
-			panel.validate();
-			panel.repaint();
-		}
-	});
-
+		
 		System.out.println("Creating statement...");
 		try {
 			stmt = con.createStatement();
@@ -147,6 +132,23 @@ public class RatePanel{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		JButton backButton = new JButton("Return To Home Page");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.gridx = 0;
+		gbc_b.gridy = 9;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new ActionListener() {
+
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new PatientMenuPanel(panel,con,P_username);
+			panel.validate();
+			panel.repaint();
+		}
+	});
+
 	}
 	private class SubmitRatePerformer implements ActionListener{
 
@@ -156,20 +158,24 @@ public class RatePanel{
 			int i = comboBox.getSelectedIndex();
 			String licenseNumber = arrayList2.get(i);
 			Statement stmt = null;
-
+			Statement stmt2 = null;
 
 			try {
 				stmt = con.createStatement();
+				stmt2 = con.createStatement();
 			} catch (SQLException k) {
 				// TODO Auto-generated catch block
 				k.printStackTrace();
 			}
 			String sql = "INSERT INTO Rates(D_LicenseNumber, P_Username, Rating) VALUES ('"+licenseNumber+"','"+ P_username+"','"+rating+"')";
-
-
+			String sql2 = "UPDATE Rates SET Rating = '"+rating+"' WHERE D_LicenseNumber = '" + licenseNumber+"' AND P_Username = '"+ P_username+"'";
+			String sql3 = "SELECT Rating FROM Rates WHERE D_LicenseNumber = '"+licenseNumber+"' AND P_Username = '"+P_username+"'";
 			try {
-				//rs = stmt.executeQuery(begin);
-				stmt.execute(sql);
+				ResultSet rs = stmt.executeQuery(sql3);
+				if (rs.next()){
+					stmt2.execute(sql2);
+				}
+				else stmt2.execute(sql);
 			} catch (SQLException m) {
 
 				m.printStackTrace();
@@ -179,6 +185,7 @@ public class RatePanel{
 			//rs.close();
 			try {
 				stmt.close();
+				stmt2.close();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
