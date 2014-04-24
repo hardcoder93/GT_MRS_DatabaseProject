@@ -95,10 +95,13 @@ public class MessageInboxDoc{
 				panel.add(messagePanel);
 				
 				String query = "UPDATE Sends_message_to_Doc set status = 'Read' WHERE dateTime = '" + table.getValueAt(selI, 1) + "'";
+				String query2 = "UPDATE CommunicateWith set status = 'Read' WHERE dateTime = '" + table.getValueAt(selI, 1) + "'";
+
 				Statement statement;
 				try {
 					statement = con.createStatement();
 					statement.executeUpdate(query);
+					statement.executeUpdate(query2);
 
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
