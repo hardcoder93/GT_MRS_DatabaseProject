@@ -48,7 +48,7 @@ public class RatePanel{
 
 		
 		String sql = "SELECT LicenseNumber, LastName, FirstName FROM Doctor";
-		String sql2 = "SELECT D_LicenseNumber FROM Doctor";
+		//String sql2 = "SELECT D_LicenseNumber FROM Doctor";
 		//System.out.println(sql);
 		try {
 			//rs = stmt.executeQuery(begin);
