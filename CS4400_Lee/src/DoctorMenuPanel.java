@@ -61,7 +61,7 @@ public class DoctorMenuPanel extends JPanel {
 		
 		JButton btnMessages = new JButton("Messages");
 		panel.add(btnMessages);
-		btnEditProfile.addActionListener(new AddMessages());
+		btnMessages.addActionListener(new AddMessages());
 		
 		Statement stmt = null;
 
@@ -170,7 +170,7 @@ public class DoctorMenuPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			// new Messages(panel,con);
+			new MessageInboxDoc(panel,con,d_username,d_licenseNumber);
 			panel.validate();
 			panel.repaint();
 		}
