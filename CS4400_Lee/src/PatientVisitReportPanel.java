@@ -5,10 +5,15 @@ import javax.swing.JTable;
 
 import java.awt.GridBagLayout;
 import java.awt.Color;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
+
 import javax.swing.JComboBox;
+
 import java.awt.Insets;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -42,6 +47,23 @@ public class PatientVisitReportPanel extends JPanel {
 		this.panel = panel;
 		this.con = con;
 		licenses = new ArrayList<String>();
+		
+		JButton backButton = new JButton("Return To Home Page");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.gridx = 0;
+		gbc_b.gridy = 9;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new ActionListener() {
+
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new AdminMenuPanel(panel,con);
+			panel.validate();
+			panel.repaint();
+		}
+	});
+		
 		setBackground(new Color(60, 179, 113));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
