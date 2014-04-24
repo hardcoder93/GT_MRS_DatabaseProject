@@ -18,6 +18,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.BoxLayout;
 
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -38,6 +39,12 @@ public class PatientMenuPanel extends JPanel {
 		this.con = con; this.panel = panel; this.p_username = p_username;
 		panel.setLayout(new GridLayout(0, 1, 0, 0));
 
+		JLabel label = new JLabel ("Homepage for Patients");
+		label.setBackground(Color.WHITE);
+		label.setForeground(Color.GRAY);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(label);
+		
 		JButton btnMakeAppointments = new JButton("Make Appointments");
 		panel.add(btnMakeAppointments);
 		btnMakeAppointments.addActionListener(new AddMakeAppointments());
@@ -68,10 +75,7 @@ public class PatientMenuPanel extends JPanel {
 		
 		
 		backButton = new JButton("Log Out");
-		GridBagConstraints gbc_b = new GridBagConstraints();
-		gbc_b.gridx = 0;
-		gbc_b.gridy = 9;
-		panel.add(backButton, gbc_b);
+		panel.add(backButton);
 		backButton.addActionListener(new AddBack());
 
 	}
