@@ -1,10 +1,14 @@
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -15,9 +19,25 @@ public class SurgeriesPerformedPanel extends JPanel {
 	private JPanel panel;
 	private Connection con;
 	
-	public SurgeriesPerformedPanel(JPanel panel, Connection con){
+	public SurgeriesPerformedPanel(final JPanel panel, final Connection con){
 		this.panel = panel;
 		this.con = con;
+		
+		JButton backButton = new JButton("Return To Home Page");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.gridx = 0;
+		gbc_b.gridy = 9;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new ActionListener() {
+
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new AdminMenuPanel(panel,con);
+			panel.validate();
+			panel.repaint();
+		}
+	});
 		
 		panel.setLayout(new FlowLayout());
 		
