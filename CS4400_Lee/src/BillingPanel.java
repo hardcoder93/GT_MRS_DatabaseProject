@@ -23,9 +23,11 @@ import javax.swing.table.DefaultTableModel;
 public class BillingPanel {
 	
 	private ArrayList<String> usernames;
+	private ArrayList<String> incomes;
 	
 	public BillingPanel(final JPanel panel, final Connection con){
 		usernames = new ArrayList<String>();
+		incomes = new ArrayList<String>();
 		
 		JButton backButton = new JButton("Return To Home Page");
 		GridBagConstraints gbc_b = new GridBagConstraints();
@@ -70,8 +72,9 @@ public class BillingPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					usernames.clear();
+					incomes.clear();
 					final Statement stmt = con.createStatement();
-					String nameQuery = "SELECT Name, HomePhone, P_username FROM Patient where Name = '" + nameField.getText() + "'";
+					String nameQuery = "SELECT Name, HomePhone, P_username, AnnualIncome FROM Patient where Name = '" + nameField.getText() + "'";
 					ResultSet nameResults = stmt.executeQuery(nameQuery);
 					
 					DefaultTableModel model = new DefaultTableModel();
@@ -85,6 +88,7 @@ public class BillingPanel {
 						
 						model.addRow(vector);
 						usernames.add(nameResults.getString(3));
+						incomes.add(nameResults.getString(4));
 					}
 					
 					final JTable nameTable = new JTable(model);
@@ -109,7 +113,7 @@ public class BillingPanel {
 						public void actionPerformed(ActionEvent e) {
 							int selI = nameTable.getSelectedRow();
 							String username = usernames.get(selI);
-							String visitsQuery = "SELECT DateOfVisit, BillingAmount FROM Visit where P_Username = '" + username + "'";
+							String visitsQuery = "SELECT DateOfVisit, BillingAmount, P_username FROM Visit where P_Username = '" + username + "'";
 							DefaultTableModel model2 = new DefaultTableModel();
 							model2.addColumn("Date of Visit");
 							model2.addColumn("Billing Amount");
@@ -122,12 +126,24 @@ public class BillingPanel {
 								while(visitsResult.next()) {
 									Vector<String> vector2 = new Vector<String>();
 									vector2.add(visitsResult.getString(1));
-									vector2.add(visitsResult.getString(2));
-									total += Integer.parseInt(visitsResult.getString(2));
+									
+									int index = usernames.indexOf(visitsResult.getString(3));
+									String income = incomes.get(index);
+									
+									long  amount;
+									if(income.equals("below 25000$")){
+									 amount = Math.round(Integer.parseInt(visitsResult.getString(2)) * .8);
+									}
+									else{
+										amount = Integer.parseInt(visitsResult.getString(2));
+									}
+									
+									vector2.add( amount + "");
+									total += amount;
 									model2.addRow(vector2);
 								};
 								
-								String surgeryQuery = "SELECT SurgeryType, CostOfSurgery FROM Surgery as s, Performs as p where P_Username = '" + username + "' AND s.CPTcode = p.CPTcode";
+								String surgeryQuery = "SELECT SurgeryType, CostOfSurgery, P_Username FROM Surgery as s, Performs as p where P_Username = '" + username + "' AND s.CPTcode = p.CPTcode";
 								ResultSet surgeryResult = stmt.executeQuery(surgeryQuery);
 								
 								Vector<String> surgeryVector = new Vector<String>();
@@ -138,8 +154,18 @@ public class BillingPanel {
 								while(surgeryResult.next()) {
 									Vector<String> vector2 = new Vector<String>();
 									vector2.add(surgeryResult.getString(1));
-									vector2.add(surgeryResult.getString(2));
-									total += Integer.parseInt(surgeryResult.getString(2));
+									int index = usernames.indexOf(surgeryResult.getString(3));
+									String income = incomes.get(index);
+									
+									long amount;
+									if(income.equals("below 25000$")){
+										amount = Math.round(Integer.parseInt(surgeryResult.getString(2)) * .5);
+									}
+									else{
+										amount = Integer.parseInt(surgeryResult.getString(2));
+									}
+									vector2.add(amount+"");
+									total += amount;
 									model2.addRow(vector2);
 								}
 
