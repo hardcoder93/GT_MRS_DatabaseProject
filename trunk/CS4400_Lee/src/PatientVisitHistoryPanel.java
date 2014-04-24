@@ -126,7 +126,17 @@ public class PatientVisitHistoryPanel extends JPanel {
 					GridBagConstraints createc = new GridBagConstraints();
 					createc.gridx = 2;
 					createc.gridy = 4;
-					// create.addActionListener(new AddCreateRecords());
+					create.addActionListener(new ActionListener() {
+
+
+						public void actionPerformed(ActionEvent e) {
+							panel.removeAll();
+							new RecordVisitPanel(panel,con,d_username);
+							panel.validate();
+							panel.repaint();
+						}
+					});
+					
 					
 					JButton view = new JButton("View");
 					GridBagConstraints viewc = new GridBagConstraints();
