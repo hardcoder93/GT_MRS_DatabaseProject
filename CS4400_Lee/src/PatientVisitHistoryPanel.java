@@ -3,7 +3,6 @@ import java.awt.GridBagLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Insets;
@@ -21,8 +20,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
-import javax.swing.JList;
-import javax.swing.JScrollBar;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -99,6 +96,7 @@ public class PatientVisitHistoryPanel extends JPanel {
 					GridBagConstraints createc = new GridBagConstraints();
 					createc.gridx = 2;
 					createc.gridy = 4;
+					// create.addActionListener(new AddCreateRecords());
 					
 					JButton view = new JButton("View");
 					GridBagConstraints viewc = new GridBagConstraints();
