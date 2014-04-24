@@ -3,6 +3,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -38,6 +39,8 @@ public class AppointmentsCalendarPanel extends JPanel {
 	private JPanel panel;
 	private Connection con;
 	String licenseNumber;
+	JPanel calendar;
+	JTable table;
 
 	/**
 	 * Create the panel.
@@ -122,7 +125,7 @@ public class AppointmentsCalendarPanel extends JPanel {
 				if(comboBox.getSelectedItem() != " "){
 					String date = comboBox_1.getSelectedItem() + " " + comboBox.getSelectedItem();
 					try {
-						PreparedStatement stmt = con.prepareStatement("SELECT Name, HomePhone, ScheduledTime FROM RequestsAppointment AS ra, Patient AS p WHERE DATE =  \"" + date + "\" AND ra.P_UserName = p.P_UserName ORDER BY ScheduledTime ASC");
+						PreparedStatement stmt = con.prepareStatement("SELECT Name, HomePhone, ScheduledTime FROM RequestsAppointment AS ra, Patient AS p WHERE DATE =  \"" + date + "\" AND ra.P_UserName = p.P_UserName AND d_licensenumber = '" + licenseNumber + "' ORDER BY ScheduledTime ASC");
 						ResultSet rs = stmt.executeQuery();
 						
 						DefaultTableModel model = new DefaultTableModel();
@@ -138,7 +141,13 @@ public class AppointmentsCalendarPanel extends JPanel {
 							model.addRow(vector);
 						}
 						
-						JTable table = new JTable(model);
+						Component[] components = panel.getComponents();
+						for(Component component: components) {
+							if(component == calendar || component == table){
+								panel.remove(component);
+							}
+						}
+						table = new JTable(model);
 						JScrollPane pane = new JScrollPane(table);
 						GridBagConstraints gbc_pane = new GridBagConstraints();
 						gbc_pane.gridwidth = 82;
@@ -150,14 +159,7 @@ public class AppointmentsCalendarPanel extends JPanel {
 						pane.setBackground(panel.getBackground());
 						panel.add(pane,gbc_pane);
 						
-						table.revalidate();
-						pane.revalidate();
 						panel.revalidate();
-						panel.getParent().revalidate();
-						table.repaint();
-						pane.repaint();
-						panel.repaint();
-						panel.getParent().repaint();
 					
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
@@ -166,7 +168,13 @@ public class AppointmentsCalendarPanel extends JPanel {
 				}
 				
 				else{
-					JPanel calendar = new JPanel();
+					Component[] components = panel.getComponents();
+					for(Component component: components) {
+						if(component == calendar || component == table){
+							panel.remove(component);
+						}
+					}
+					calendar = new JPanel();
 					calendar.setLayout(new GridLayout());
 					for(int i = 1; i < 32; i++){
 						JPanel block = new JPanel();
@@ -213,12 +221,8 @@ public class AppointmentsCalendarPanel extends JPanel {
 					gbc_calendar.fill = GridBagConstraints.BOTH;
 					panel.add(calendar,gbc_calendar);
 					
-					calendar.revalidate();
 					panel.revalidate();
-					panel.getParent().revalidate();
-					calendar.repaint();
-					panel.repaint();
-					panel.getParent().repaint();
+
 				}
 			}
 		});
