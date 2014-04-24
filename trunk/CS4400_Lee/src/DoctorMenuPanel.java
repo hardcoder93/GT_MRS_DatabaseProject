@@ -151,7 +151,7 @@ public class DoctorMenuPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			new CreateAccountPanel(panel,con);     // wongoo
+			new SendMessageToDoctors(panel,con,d_username); 
 			panel.validate();
 			panel.repaint();
 		}
