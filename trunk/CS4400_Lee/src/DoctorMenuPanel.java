@@ -149,7 +149,7 @@ public class DoctorMenuPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			new CreateAccountPanel(panel,con);    // wongoo
+			new RecordSurgeryPanel(panel,con,d_username,d_licenseNumber);
 			panel.validate();
 			panel.repaint();
 		}
