@@ -28,15 +28,32 @@ public class RatePanel{
 	JComboBox comboBox;
 	JComboBox comboBox_1;
 	String P_username;
+	private JButton btnNewButton;
 	ArrayList<String> arrayList2 = new ArrayList<String>();
 	/**
 	 * Create the panel.
 	 */
-	public RatePanel(JPanel panel, Connection con, String P_username) {
+	public RatePanel(final JPanel panel, final Connection con, final String P_username) {
 		this.panel = panel;
 		this.con = con;
 		this.P_username = P_username; 
 		Statement stmt = null;
+		
+		JButton backButton = new JButton("Return To Home Page");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.gridx = 0;
+		gbc_b.gridy = 9;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new ActionListener() {
+
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new PatientMenuPanel(panel,con,P_username);
+			panel.validate();
+			panel.repaint();
+		}
+	});
 
 		System.out.println("Creating statement...");
 		try {
@@ -112,7 +129,7 @@ public class RatePanel{
 			gbc_comboBox_1.gridy = 3;
 			panel.add(comboBox_1, gbc_comboBox_1);
 			
-			JButton btnNewButton = new JButton("Submit");
+			btnNewButton = new JButton("Submit");
 			GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 			gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
 			gbc_btnNewButton.gridx = 7;
@@ -141,7 +158,6 @@ public class RatePanel{
 			Statement stmt = null;
 
 
-			System.out.println("Creating statement...");
 			try {
 				stmt = con.createStatement();
 			} catch (SQLException k) {
@@ -169,10 +185,7 @@ public class RatePanel{
 			}
 
 			
-			panel.removeAll();
-			new PatientMenuPanel(panel,con,P_username);
-			panel.validate();
-			panel.repaint();
+			btnNewButton.setText("Thank you.");
 		}
 	}
 }
