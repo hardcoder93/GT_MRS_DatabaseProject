@@ -223,10 +223,13 @@ public class CreateAccountPanel {
 
 			else {
 				sql = "INSERT INTO User(Username, Password, UserType) VALUES ('"+username+ "','" + password+ "', '"+type+ "')";
-
+				String sql2 = "INSERT INTO MedicalStaff(M_Username) VALUES ('"+username+ "')";
+				String sql3 = "INSERT INTO AdministrativePersonnel(AP_Username) VALUES ('"+username+ "')";
 				//System.out.println(sql);
 				try {
 					stmt.execute(sql);
+					stmt.execute(sql2);
+					stmt.execute(sql3);
 
 				} catch (SQLException e2) {
 					// TODO Auto-generated catch block
