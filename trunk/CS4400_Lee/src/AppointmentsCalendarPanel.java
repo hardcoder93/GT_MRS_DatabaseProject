@@ -53,6 +53,8 @@ public class AppointmentsCalendarPanel extends JPanel {
 		this.con = con;
 		this.licenseNumber = licenseNumber;
 
+		
+		
 		setBackground(new Color(60, 179, 113));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 82, 1, 0, 0, 0, 0, 0, 0, 0};
