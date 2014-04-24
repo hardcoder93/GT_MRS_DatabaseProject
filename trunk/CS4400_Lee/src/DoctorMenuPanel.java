@@ -119,7 +119,7 @@ public class DoctorMenuPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			new AppointmentsCalendarPanel(panel,con,d_licenseNumber);
+			new AppointmentsCalendarPanel(panel,con,d_username, d_licenseNumber);
 			panel.validate();
 			panel.repaint();
 		}
@@ -131,7 +131,7 @@ public class DoctorMenuPanel extends JPanel {
 			
 			
 			panel.removeAll();
-			new PatientVisitHistoryPanel(panel,con,d_licenseNumber);
+			new PatientVisitHistoryPanel(panel,con,d_username, d_licenseNumber);
 			panel.validate();
 			panel.repaint();
 
