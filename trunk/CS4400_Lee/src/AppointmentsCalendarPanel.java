@@ -100,7 +100,7 @@ public class AppointmentsCalendarPanel extends JPanel {
 		panel.add(comboBox, gbc_comboBox);
 		
 		final JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}));
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
 		comboBox_1.setSelectedIndex(month-1);
 		GridBagConstraints gbc_comboBox_1 = new GridBagConstraints();
 		gbc_comboBox_1.fill = GridBagConstraints.HORIZONTAL;
@@ -128,7 +128,7 @@ public class AppointmentsCalendarPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(comboBox.getSelectedItem() != " "){
-					String date = comboBox_1.getSelectedItem() + " " + comboBox.getSelectedItem();
+					String date = comboBox.getSelectedItem() + " " + comboBox_1.getSelectedItem();
 					try {
 						PreparedStatement stmt = con.prepareStatement("SELECT Name, HomePhone, ScheduledTime FROM RequestsAppointment AS ra, Patient AS p WHERE DATE =  \"" + date + "\" AND ra.P_UserName = p.P_UserName AND d_licensenumber = '" + licenseNumber + "' ORDER BY ScheduledTime ASC");
 						ResultSet rs = stmt.executeQuery();
