@@ -43,7 +43,7 @@ public class PatientProfilePanel{
 	/**
 	 * Create the panel.
 	 */
-	public PatientProfilePanel(JPanel panel, Connection con, String p_username) {
+	public PatientProfilePanel(final JPanel panel, final Connection con, String p_username) {
 		this.p_username = p_username;
 		this.panel = panel;
 		this.con = con;
@@ -55,6 +55,23 @@ public class PatientProfilePanel{
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gridBagLayout);
 
+		JButton backButton = new JButton("Return To Login Page");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.insets = new Insets(0, 0, 0, 5);
+		gbc_b.gridx = 16;
+		gbc_b.gridy = 14;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new ActionListener() {
+
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new LoginPanel(panel,con);
+			panel.validate();
+			panel.repaint();
+		}
+	});
+		
 		JLabel lblPatientProfile = new JLabel("Patient Profile");
 		lblPatientProfile.setFont(new Font("Consolas", Font.BOLD, 25));
 		GridBagConstraints gbc_lblPatientProfile = new GridBagConstraints();
@@ -316,7 +333,9 @@ public class PatientProfilePanel{
 			String cardNum = textField_11.getText();
 			Statement stmt = null;
 			Statement stmt2 = null;
-
+			
+			
+			
 			try {
 				stmt = con.createStatement();
 				stmt2 = con.createStatement();
