@@ -148,7 +148,7 @@ public class PatientMenuPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			//new SendMessageToDoctor(panel, con, p_username);
+			new MessageInbox(panel,con,p_username);
 			panel.validate();
 			panel.repaint();
 		}
