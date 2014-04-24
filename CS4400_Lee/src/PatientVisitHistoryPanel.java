@@ -1,6 +1,8 @@
 import javax.swing.JPanel;
+
 import java.awt.GridBagLayout;
 import java.awt.Color;
+
 import javax.swing.JLabel;
 
 import java.awt.Component;
@@ -42,7 +44,7 @@ public class PatientVisitHistoryPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PatientVisitHistoryPanel(final JPanel panel, final Connection con, final String licenseNumber) {
+	public PatientVisitHistoryPanel(final JPanel panel, final Connection con,final String d_username, final String licenseNumber) {
 		this.panel = panel;
 		this.con = con;
 		this.licenseNumber = licenseNumber;
@@ -55,6 +57,24 @@ public class PatientVisitHistoryPanel extends JPanel {
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel.setLayout(gridBagLayout);
+		
+		JButton backButton = new JButton("Return To Home Page");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.insets = new Insets(0, 0, 0, 5);
+		gbc_b.gridx = 16;
+		gbc_b.gridy = 14;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new ActionListener() {
+
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new DoctorMenuPanel(panel,con,d_username);
+			panel.validate();
+			panel.repaint();
+		}
+	});
+		
 		
 		JLabel name = new JLabel("Name: ");
 		JLabel phone = new JLabel("Phone: ");
@@ -332,6 +352,8 @@ public class PatientVisitHistoryPanel extends JPanel {
 		gbc_comboBox_1.gridx = 5;
 		gbc_comboBox_1.gridy = 7;
 		panel.add(comboBox_1, gbc_comboBox_1);
+		
+		
 
 	}
 
