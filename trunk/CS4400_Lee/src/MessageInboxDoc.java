@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.border.LineBorder;
 import javax.swing.ListSelectionModel;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -16,6 +17,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import java.awt.CardLayout;
@@ -50,7 +52,7 @@ public class MessageInboxDoc{
 	Connection con;
 	String username;
 
-	public MessageInboxDoc(JPanel panel, Connection con, String username, String d_licenseNumber) {
+	public MessageInboxDoc(final JPanel panel, final Connection con, String username, String d_licenseNumber) {
 		this.panel =panel;
 		this.con=con;
 		this.username = username;
@@ -65,6 +67,55 @@ public class MessageInboxDoc{
 		JButton btnMessages = new JButton("back");
 		panel.add(btnMessages);
 		btnMessages.addActionListener(new backButtonListner());
+		
+		JButton read = new JButton("Read Message");
+		read.addActionListener(new ActionListener() {
+			
+			private JPanel messagePanel;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int selI = table.getSelectedRow();
+				String content = (String) table.getValueAt(selI, 3);
+				
+				Component[] components = panel.getComponents();
+			    for (Component component : components) {
+			    	if(component == messagePanel){
+			    		panel.remove(messagePanel);
+			    	}
+			    }		
+				messagePanel = new JPanel();
+				messagePanel.setLayout(new FlowLayout());
+				JLabel messages = new JLabel("Message:              ");
+				JTextArea area = new JTextArea(content);
+				
+				messagePanel.add(messages);
+				messagePanel.add(area);
+					
+				panel.add(messagePanel);
+				
+				String query = "UPDATE Sends_message_to_Doc set status = 'Read' WHERE dateTime = '" + table.getValueAt(selI, 1) + "'";
+				Statement statement;
+				try {
+					statement = con.createStatement();
+					statement.executeUpdate(query);
+
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				table.setValueAt("Read",selI,0);
+				
+				panel.revalidate();
+				panel.repaint();
+				
+			}
+		});
+		
+		panel.add(read);
+		panel.revalidate();
+		
 		String query = "SELECT Name, HomePhone, Status, Datetime, Content FROM Patient AS P, Sends_message_to_Doc AS D WHERE D_LicenseNumber = '"+d_licenseNumber+"' AND P.P_Username = D.P_Username UNION SELECT FirstName, LastName, Status, Datetime, Content FROM Doctor AS D, CommunicateWith as C WHERE Receiver_LicenseNumber = '"+d_licenseNumber+"' AND D.LicenseNumber = C.Sender_LicenseNumber";
 
 
@@ -76,13 +127,13 @@ public class MessageInboxDoc{
 				Vector<String> vector = new Vector<String>();
 				vector.add(rs.getString(3));
 				vector.add(rs.getString(4));
-				vector.add(rs.getString(1)+rs.getString(2));
+				vector.add(rs.getString(1)+ " " + rs.getString(2));
 				vector.add(rs.getString(5));
 				
 				model.addRow(vector);
 			}
 			
-			JTable table = new JTable(model);
+			table = new JTable(model);
 			JScrollPane pane = new JScrollPane(table);
 			panel.add(pane);
 			
