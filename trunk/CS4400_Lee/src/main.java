@@ -17,46 +17,13 @@ public class main {
 		
 		
 		
-		JFrame frame = new JFrame("shibal");
+		JFrame frame = new JFrame("GTMRS ");
 		frame.setVisible(true);
-		frame.setSize(600, 400);
+		frame.setSize(800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel panel = new JPanel();
 		frame.add(panel);
 		new LoginPanel(panel,con);
 		
-		
-		
-		
-//		
-//		Statement stmt = null;
-//
-//		System.out.println("Creating statement...");
-//		try {
-//			stmt = con.createStatement();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		
-//		
-		
-		/*String sql = null;
-		
-		sql = "INSERT INTO User(Username, Password,UserType) VALUES ('wongoos', 'shims','patients')";
-		
-		try {
-			//rs = stmt.executeQuery(begin);
-			stmt.execute(sql);
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
-		//rs.close();
-		stmt.close();
-		con.close();*/
-		
-		//con.close();
 	} 
 }
