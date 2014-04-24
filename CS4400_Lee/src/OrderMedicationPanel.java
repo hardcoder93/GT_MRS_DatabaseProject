@@ -6,7 +6,6 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 
 import java.awt.FlowLayout;
-
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -31,6 +30,7 @@ import java.util.ArrayList;
 import javax.swing.SwingConstants;
 
 
+
 public class OrderMedicationPanel extends JPanel {
 	private JTextField textField;
 	private JTextField textField_1;
@@ -39,6 +39,7 @@ public class OrderMedicationPanel extends JPanel {
 	private JComboBox comboBox,comboBox_2,comboBox_3;
 	private String p_username;
 	private ArrayList<String> basket;
+	private JButton backButton;
 	/**
 	 * Create the panel.
 	 */
@@ -134,6 +135,20 @@ public class OrderMedicationPanel extends JPanel {
 		panel.add(btnCheckout);
 		btnCheckout.addActionListener(new AddCheckout());
 
+		backButton = new JButton("Return To Home Page");
+		panel.add(backButton);
+		backButton.addActionListener(new AddBack());
+
+	}
+
+	private class AddBack implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new PatientMenuPanel(panel,con,p_username);
+			panel.validate();
+			panel.repaint();
+		}
 	}
 
 	private class AddCheckout implements ActionListener{
@@ -149,7 +164,6 @@ public class OrderMedicationPanel extends JPanel {
 
 			Statement stmt = null;
 
-			System.out.println("Creating statement...");
 			try {
 				stmt = con.createStatement();
 			} catch (SQLException k) {
@@ -158,8 +172,6 @@ public class OrderMedicationPanel extends JPanel {
 			}
 
 			String sql = null;
-			String sql2 = null;
-
 
 			sql = "SELECT D_LicenseNumber,P_Username,DateOfVisit,MedicineName,Dosage,Duration FROM Prescription";
 			//sql2 = 
