@@ -170,8 +170,6 @@ public class SendMessageToDoctor{
 			String content = textField.getText();
 			Statement stmt = null;
 			Statement stmt2 = null;
-			//String sql2 = "SELECT LicenseNumber FROM Doctor WHERE D_Username = '" +  d_username + "'";
-			System.out.println("Creating statement...");
 			try {
 				stmt = con.createStatement();
 				stmt2 = con.createStatement();
