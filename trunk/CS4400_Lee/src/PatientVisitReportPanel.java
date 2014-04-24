@@ -131,13 +131,13 @@ public class PatientVisitReportPanel extends JPanel {
 				
 				int month = comboBox.getSelectedIndex()+1;
 				String year = (String) comboBox_1.getSelectedItem();
-				String visitQuery = "SELECT FirstName,LastName, COUNT(v.D_LicenseNumber) as countVisits, SUM(BillingAmount) as summ, LicenseNumber FROM Doctor INNER JOIN Visit as v ON LicenseNumber = v.D_LicenseNumber  WHERE DateOfVisit LIKE '" +month+"%" +year +"' GROUP BY v.D_LicenseNumber";
+				String visitQuery = "SELECT FirstName,LastName, COUNT(v.D_LicenseNumber) as countVisits, SUM(BillingAmount) as summ, LicenseNumber FROM Doctor LEFT JOIN Visit as v ON LicenseNumber = v.D_LicenseNumber  WHERE DateOfVisit LIKE '%/%" +month+"/" +year +"' GROUP BY v.D_LicenseNumber";
 				Statement stmt;
 				try {
 					stmt = con.createStatement();
 					ResultSet visitResults = stmt.executeQuery(visitQuery);
 					
-					String prescriptionQuery = "SELECT COUNT(p.D_Licensenumber), LicenseNumber FROM Doctor INNER JOIN Prescription as p on licensenumber = p.D_licenseNumber WHERE DateOfVisit LIKE '" +month+"%" +year +"' GROUP BY p.D_LicenseNumber";
+					String prescriptionQuery = "SELECT COUNT(p.D_Licensenumber), LicenseNumber FROM Doctor LEFT JOIN Prescription as p on licensenumber = p.D_licenseNumber WHERE DateOfVisit LIKE '%/%" +month+"/" +year +"' GROUP BY p.D_LicenseNumber";
 					
 					while(visitResults.next()){
 						Vector<String> vector = new Vector<String>();
@@ -155,7 +155,7 @@ public class PatientVisitReportPanel extends JPanel {
 					while(prescriptionResults.next()){
 						for(int i = 0; i < licenses.size(); i++){
 							if(licenses.get(i).equals(prescriptionResults.getString(2))){
-								model.setValueAt(prescriptionResults.getString(2), i, 2);
+								model.setValueAt(prescriptionResults.getString(1), i, 2);
 								break;
 							}
 						}

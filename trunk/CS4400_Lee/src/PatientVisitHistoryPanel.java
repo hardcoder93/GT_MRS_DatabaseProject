@@ -137,6 +137,17 @@ public class PatientVisitHistoryPanel extends JPanel {
 								ResultSet rs = stmt.executeQuery(query);
 
 								int y = 6;
+								Component[] components = panel.getComponents();
+								for(Component component: components){
+									if(component instanceof JButton) {
+										if(((JButton) component).getText().contains("/")){
+											panel.remove(component);
+										}
+									}
+								}
+								
+								panel.revalidate();
+								panel.repaint();
 								while(rs.next()){
 									JButton button = new JButton(rs.getString(1));
 									GridBagConstraints buttonc = new GridBagConstraints();
@@ -165,6 +176,7 @@ public class PatientVisitHistoryPanel extends JPanel {
 												String diagQuery = "SELECT Diagnosis FROM Diagnosis_new WHERE D_LicenseNumber = '" + licenseNumber +"' AND DateOfVisit = '" + date + "' AND P_Username = '" + username + "'";
 												ResultSet diag = stmt.executeQuery(diagQuery);
 
+												comboBox_1.removeAllItems();
 												while(diag.next()) {
 													comboBox_1.addItem(diag.getString(1));
 												}

@@ -156,7 +156,7 @@ public class ViewVisitHistoryPanel extends JPanel {
 							GridBagConstraints panec = new GridBagConstraints();
 							panec.gridwidth = 82;
 							panec.gridx = 0;
-							panec.gridy = 10;
+							panec.gridy = 13;
 							panec.weightx = 1;
 							panec.weighty = 1;
 							panec.fill = GridBagConstraints.BOTH;
