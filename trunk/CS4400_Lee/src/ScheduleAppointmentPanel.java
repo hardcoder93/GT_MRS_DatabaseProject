@@ -28,6 +28,7 @@ public class ScheduleAppointmentPanel{
 	private String user;
 	JComboBox<String> specialtyCombo;
 	JTable table;
+	JScrollPane pane;
 	ResultSet doctors;
 	
 	public ScheduleAppointmentPanel (JPanel panel, Connection con,String user) {
@@ -122,18 +123,18 @@ public class ScheduleAppointmentPanel{
 				}
 			}
 			String[] columnNames = {"Doctor Name", "Phone #", "Room #", "Availability", "Avg Rating"};
-			Component[] components = panel.getComponents();
-		    for (Component component : components) {
-		    	if(component == table){
-		    		panel.remove(table);
-		    	}
-		    }
+
 			table = new JTable(rows,columnNames);
 		    table.getColumnModel().getColumn(2).setPreferredWidth(5);
 		    table.getColumnModel().getColumn(3).setPreferredWidth(150);
 
-		  
-			JScrollPane pane = new JScrollPane(table);
+		    Component[] components = panel.getComponents();
+		    for (Component component : components) {
+		    	if(component == pane){
+		    		panel.remove(pane);
+		    	}
+		    }
+			pane = new JScrollPane(table);
 			pane.setBounds(0,60,600,200);
 			pane.setBackground(panel.getBackground());
 			table.setBackground(panel.getBackground());
@@ -179,8 +180,7 @@ public class ScheduleAppointmentPanel{
 			panel.add(requestButton);
 			panel.add(pane);
 			
-			panel.getParent().repaint();
-
+			panel.revalidate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

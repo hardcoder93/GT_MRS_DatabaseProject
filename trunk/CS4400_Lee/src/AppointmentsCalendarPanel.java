@@ -1,4 +1,4 @@
-import javax.swing.JPanel; 
+import javax.swing.JPanel;  
 import java.awt.Color;
 import javax.swing.JLabel;
 
@@ -41,6 +41,7 @@ public class AppointmentsCalendarPanel extends JPanel {
 	String licenseNumber;
 	JPanel calendar;
 	JTable table;
+	JScrollPane pane;
 
 	/**
 	 * Create the panel.
@@ -141,14 +142,16 @@ public class AppointmentsCalendarPanel extends JPanel {
 							model.addRow(vector);
 						}
 						
+						table = new JTable(model);
+						
 						Component[] components = panel.getComponents();
 						for(Component component: components) {
-							if(component == calendar || component == table){
+							if(component == calendar || component == pane){
 								panel.remove(component);
 							}
 						}
-						table = new JTable(model);
-						JScrollPane pane = new JScrollPane(table);
+						
+						pane = new JScrollPane(table);
 						GridBagConstraints gbc_pane = new GridBagConstraints();
 						gbc_pane.gridwidth = 82;
 						gbc_pane.gridx = 0;
@@ -170,7 +173,7 @@ public class AppointmentsCalendarPanel extends JPanel {
 				else{
 					Component[] components = panel.getComponents();
 					for(Component component: components) {
-						if(component == calendar || component == table){
+						if(component == calendar || component == pane){
 							panel.remove(component);
 						}
 					}

@@ -127,7 +127,7 @@ public class ViewVisitHistoryPanel extends JPanel {
 							
 							String diagQuery = "SELECT Diagnosis FROM Diagnosis_new WHERE D_LicenseNumber = '" + licenseNumber +"' AND DateOfVisit = '" + date + "' AND P_Username = '" + username + "'";
 							ResultSet diag = stmt.executeQuery(diagQuery);
-							
+							comboBox_1.removeAllItems();
 							while(diag.next()) {
 								comboBox_1.addItem(diag.getString(1));
 							}
