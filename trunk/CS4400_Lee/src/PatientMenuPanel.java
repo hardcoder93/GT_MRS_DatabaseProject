@@ -32,6 +32,7 @@ public class PatientMenuPanel extends JPanel {
 	private Connection con;
 	private JPanel panel;
 	private String p_username;
+	private JButton backButton;
 
 	public PatientMenuPanel(JPanel panel, Connection con, String p_username) {
 		this.con = con; this.panel = panel; this.p_username = p_username;
@@ -64,7 +65,25 @@ public class PatientMenuPanel extends JPanel {
 		JButton btnMessages = new JButton("Messages");
 		panel.add(btnMessages);
 		btnMessages.addActionListener(new AddMessages());
+		
+		
+		backButton = new JButton("Log Out");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.gridx = 0;
+		gbc_b.gridy = 9;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new AddBack());
 
+	}
+
+	private class AddBack implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new LoginPanel(panel,con);
+			panel.validate();
+			panel.repaint();
+		}
 	}
 
 	private class AddMakeAppointments implements ActionListener{
