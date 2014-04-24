@@ -275,8 +275,6 @@ public class DoctorProfilePanel {
 			Statement stmt = null;
 			Statement stmt2 = null;
 
-
-			System.out.println("Creating statement...");
 			try {
 				stmt = con.createStatement();
 				stmt2 = con.createStatement();
