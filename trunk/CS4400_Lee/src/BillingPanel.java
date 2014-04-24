@@ -21,15 +21,27 @@ import javax.swing.table.DefaultTableModel;
 
 
 public class BillingPanel {
-	private JPanel panel;
-	private Connection con;
 	
 	private ArrayList<String> usernames;
 	
 	public BillingPanel(final JPanel panel, final Connection con){
-		this.panel = panel;
-		this.con = con;
 		usernames = new ArrayList<String>();
+		
+		JButton backButton = new JButton("Return To Home Page");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.gridx = 0;
+		gbc_b.gridy = 9;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new ActionListener() {
+
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new AdminMenuPanel(panel,con);
+			panel.validate();
+			panel.repaint();
+		}
+	});
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
