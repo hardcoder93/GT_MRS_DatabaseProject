@@ -30,6 +30,7 @@ public class CreateAccountPanel {
 	private String username;
 	private String password;
 	private String type;
+	private JButton backButton;
 
 	/**
 	 * Create the panel.
@@ -133,7 +134,25 @@ public class CreateAccountPanel {
 
 		btnNewButton.addActionListener(new AddPatientProfilePerformer());
 
+		backButton = new JButton("Return To Login Page");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.gridx = 0;
+		gbc_b.gridy = 9;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new AddBack());
+
 	}
+
+	private class AddBack implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new LoginPanel(panel,con);
+			panel.validate();
+			panel.repaint();
+		}
+	}
+
 	private class AddPatientProfilePerformer implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
@@ -144,7 +163,6 @@ public class CreateAccountPanel {
 			Statement stmt = null;
 
 
-			System.out.println("Creating statement...");
 			try {
 				stmt = con.createStatement();
 			} catch (SQLException k) {
