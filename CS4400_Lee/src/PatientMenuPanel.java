@@ -117,7 +117,7 @@ public class PatientMenuPanel extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			new CreateAccountPanel(panel,con);
+			new SendMessageToDoctor(panel, con, p_username);
 			panel.validate();
 			panel.repaint();
 		}
@@ -140,11 +140,11 @@ public class PatientMenuPanel extends JPanel {
 			panel.repaint();
 		}
 	}	
-	private class AddMessages implements ActionListener{ // weongoo
+	private class AddMessages implements ActionListener{ 
 
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			new CreateAccountPanel(panel,con);
+			//new SendMessageToDoctor(panel, con, p_username);
 			panel.validate();
 			panel.repaint();
 		}
