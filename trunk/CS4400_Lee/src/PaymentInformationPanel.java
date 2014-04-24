@@ -140,6 +140,25 @@ public class PaymentInformationPanel extends JPanel {
 		panel.add(button, gbc_button);
 		button.addActionListener(new AddCheckout());
 
+		JButton btnCheckout = new JButton("Checkout");
+		btnCheckout.setForeground(new Color(0, 0, 139));
+		panel.add(btnCheckout);
+		btnCheckout.addActionListener(new AddCheckout());
+
+		backButton = new JButton("Return To Home Page");
+		panel.add(backButton);
+		backButton.addActionListener(new AddBack());
+
+	}
+
+	private class AddBack implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new PatientMenuPanel(panel,con,p_username);
+			panel.validate();
+			panel.repaint();
+		}
 	}
 
 	private class AddCheckout implements ActionListener{
