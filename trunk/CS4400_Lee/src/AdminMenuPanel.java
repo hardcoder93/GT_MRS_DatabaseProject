@@ -1,5 +1,6 @@
 import javax.swing.JPanel;
 
+import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
@@ -18,9 +19,12 @@ public class AdminMenuPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public AdminMenuPanel(JPanel panel, Connection con) {
+	public AdminMenuPanel(final JPanel panel, final Connection con) {
 		this.panel = panel; this.con = con;
 		panel.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		
+
 		
 		JLabel lblAdminHome = new JLabel("Administrative Home");
 		lblAdminHome.setHorizontalAlignment(SwingConstants.CENTER);
@@ -42,6 +46,20 @@ public class AdminMenuPanel extends JPanel {
 		btnPatientVisitReport.setBackground(new Color(240, 255, 255));
 		panel.add(btnPatientVisitReport);
 		btnPatientVisitReport.addActionListener(new AddPatientVisitReport());
+		
+		JButton backButton = new JButton("Log Out");
+		panel.add(backButton);
+		backButton.addActionListener(new ActionListener() {
+
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new LoginPanel(panel,con);
+			panel.validate();
+			panel.repaint();
+		}
+	});
+		
 	}
 	
 	private class AddBilling implements ActionListener{
