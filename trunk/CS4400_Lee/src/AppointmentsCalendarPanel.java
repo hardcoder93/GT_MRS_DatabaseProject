@@ -1,5 +1,7 @@
 import javax.swing.JPanel;  
+
 import java.awt.Color;
+
 import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
@@ -46,7 +48,7 @@ public class AppointmentsCalendarPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public AppointmentsCalendarPanel(final JPanel panel,final Connection con,final String licenseNumber) {
+	public AppointmentsCalendarPanel(final JPanel panel,final Connection con,final String d_username, final String licenseNumber) {
 		this.panel = panel;
 		this.con = con;
 		this.licenseNumber = licenseNumber;
@@ -232,7 +234,22 @@ public class AppointmentsCalendarPanel extends JPanel {
 		panel.add(viewAppts, gbc_viewAppts);
 		
 		
+		JButton backButton = new JButton("Return To Home Page");
+		GridBagConstraints gbc_b = new GridBagConstraints();
+		gbc_b.insets = new Insets(0, 0, 0, 5);
+		gbc_b.gridx = 16;
+		gbc_b.gridy = 14;
+		panel.add(backButton, gbc_b);
+		backButton.addActionListener(new ActionListener() {
 
+
+		public void actionPerformed(ActionEvent e) {
+			panel.removeAll();
+			new DoctorMenuPanel(panel,con,d_username);
+			panel.validate();
+			panel.repaint();
+		}
+	});
 		
 
 	}
