@@ -12,8 +12,8 @@ import java.awt.GridLayout;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import java.sql.Statement;
 
+import java.sql.Statement;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -32,6 +32,7 @@ public class PaymentInformationPanel extends JPanel {
 	private JTextField textField_4;
 	private JComboBox comboBox;
 	private JPanel panel; private Connection con; private String p_username; private ArrayList<String> basket;
+	private JButton backButton;
 
 	/**
 	 * Create the panel.
@@ -157,7 +158,6 @@ public class PaymentInformationPanel extends JPanel {
 			
 			Statement stmt = null;
 			Statement stmt2 = null;
-			System.out.println("Creating statement...");
 			try {
 				stmt = con.createStatement();
 				stmt2 = con.createStatement();
@@ -206,6 +206,7 @@ public class PaymentInformationPanel extends JPanel {
 			//rs.close();
 			try {
 				stmt.close();
+				stmt2.close();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -216,6 +217,23 @@ public class PaymentInformationPanel extends JPanel {
 			new PatientMenuPanel(panel,con,p_username);
 			panel.validate();
 			panel.repaint();
+			backButton = new JButton("Go Back To Home Page");
+			GridBagConstraints gbc_b = new GridBagConstraints();
+			gbc_b.gridx = 0;
+			gbc_b.gridy = 9;
+			panel.add(backButton, gbc_b);
+			backButton.addActionListener(new AddBack());
+
+		}
+
+		private class AddBack implements ActionListener{
+
+			public void actionPerformed(ActionEvent e) {
+				panel.removeAll();
+				new PatientMenuPanel(panel,con,p_username);
+				panel.validate();
+				panel.repaint();
+			}
 		}
 	}
 }
